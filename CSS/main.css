@@ -1,0 +1,42 @@
+body{
+    background: rgb(197, 195, 195)
+}
+
+/*去除滚动条*/
+::-webkit-scrollbar{display: none;}
+html{
+    -ms-overflow-style:none;
+    overflow:-moz-scrollbars-none;
+}
+
+/*导航栏*/
+.nav a{
+    display: block;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(22, 8, 61);
+    color: rgb(196, 212, 207);
+    border-radius: 25px;
+}
+/*均分宽度*/
+.nav ul{
+    margin: 0;
+    margin-left: 5%;
+    padding: 0;
+    padding-left: 30%;
+    display: table;
+    width: 65%;
+    height: 50px;
+    background: url(../resources/Logo.png);
+    table-layout: fixed;
+    border-radius: 5px;
+}
+.nav ul li{
+    display: table-cell;
+    line-height: 50px;
+    text-align: center;
+}
+.nav a:hover {
+    background: rgb(255, 60, 60);
+}

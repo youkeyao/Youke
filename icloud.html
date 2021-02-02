@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+        <title>Youke</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width" initial-scale="1.0">
+        <meta name="keywords" content="iCloud">
+        <meta name="description" content="My iCloud">
+        <meta name="author" content="Youke">
+
+        <link rel="stylesheet" type="text/css" href="./CSS/main.css">
+        <link rel="stylesheet" type="text/css" href="./CSS/icloud.css">
+        <script type="text/javascript" src="./JS/icloud.js"></script>
+	</head>
+
+	<body>
+        <!--导航栏-->
+        <div class="nav">
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./cv.html">Profile</a></li>
+                <li><a href="./icloud.html" style="background-color: rgb(255, 60, 60);">iCloud</a></li>
+                <li><a href="./game.html">Game</a></li>
+            </ul>
+        </div>
+
+        <!--文件操作-->
+        <div class="up">
+            <!--上传，下载，删除，新建目录按钮-->
+            <input id="input" type="file" onchange="upload(this.files)">
+            <button id="upload" onclick="bt_input()">upload</button>
+            <button id="download" onclick="download()">download</button>
+            <button id="remove" onclick="remove()">remove</button>
+            <button id="new" onclick="newFolder()">new folder</button>
+
+            <!--进度条-->
+            <div class="progressBar" id="progressBar">
+                <div class="barContent" id="barContent"></div>
+            </div>
+            <label id="barText"></label>
+
+            <!--路径显示和上级按钮-->
+            <button style="width: 20px; height: 20px; margin-top: 10px; padding: 0px; float: right;" onclick="upfolder()">↑</button>
+            <p id="path">/</p>
+        </div>
+
+        <hr />
+
+        <!--文件显示框架-->
+        <div class="filelist" id="filelist"></div>
+
+	</body>
+
+</html>

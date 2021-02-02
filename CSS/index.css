@@ -1,0 +1,105 @@
+main h1{
+    user-select: none;
+    text-align: center;
+    padding-top: 3%;
+    font-family : Trebuchet MS;
+}
+
+/*展示框架*/
+.show{
+    width: 100%;
+}
+/*左按钮*/
+.left{
+    float: left;
+    position: relative;
+    margin: 0;
+    width: 5%;
+    margin-left: 2%;
+    margin-right: 3%;
+    margin-top: 20%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    outline: none;
+    border: 0px;
+    overflow: hidden;
+    background-color: transparent;
+    background-size: 100% 100%;
+    background-image: url(../resources/arrow.png);
+}
+/*右按钮*/
+.right{
+    float: right;
+    position: relative;
+    margin: 0;
+    width: 5%;
+    margin-left: 3%;
+    margin-right: 2%;
+    margin-top: 20%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    outline: none;
+    border: 0px;
+    overflow: hidden;
+    background-color: transparent;
+    background-size: 100% 100%;
+    background-image: url(../resources/arrow.png);
+    transform: rotateY(180deg);
+}
+/*两个按钮样式*/
+.show button:hover{
+    background-color: rgb(240, 210, 180);
+    cursor: pointer;
+}
+.show button:after{
+    content: "";
+    background:  rgb(100, 210, 120);
+    display: block;
+    position: absolute;
+    padding-top: 400%;
+    padding-left: 450%;
+    margin-left: -20px!important;
+    margin-top: -200%;
+    opacity: 0;
+    transition: all 0.5s;
+}
+.show button:active:after{
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s;
+}
+
+/*图片框架*/
+.imgshow{
+    float: left;
+    position: relative;
+    width: 80%;
+    padding-top: 25%;
+    padding-bottom: 25%;
+    overflow: hidden;
+}
+.imgshow ul{
+    list-style-type: none;
+    width: 400%;/*宽度为四张图片宽度*/
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+}
+.imgshow ul li{
+    float: left;
+    width: 25%;/*宽度为一张图片宽度*/
+    height: 100%;
+}
+.imgshow img{
+    position: relative;
+    width: 100%;
+    /*居中*/
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}

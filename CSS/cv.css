@@ -1,0 +1,10 @@
+/*标题*/
+h2{
+    text-align: left;
+    color: rgb(13, 18, 80);
+}
+
+/*列表*/
+ul{
+    line-height: 25px;
+}

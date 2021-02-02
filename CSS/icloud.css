@@ -1,0 +1,91 @@
+.up{
+    margin: 10px;
+}
+/*路径*/
+.up p{
+    float: right;
+    margin-top: 8px;
+    margin-left: 1%;
+    margin-right: 1%;
+    max-width: calc(100% - 250px);/*过长时不影响按钮*/
+    overflow: scroll;
+}
+/*隐藏默认input按钮，采用自定义按钮*/
+.up input{
+    width: 0px;
+    height: 0px;
+    border: 0px;
+    opacity: 0;
+}
+/*按钮*/
+.up button{
+    position: relative;
+    background-color: rgb(22, 8, 61);
+    border: none;
+    font-size: medium;
+    color: rgb(196, 212, 207);
+    width: 100px;
+    height: 40px;
+    padding: 0px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    overflow: hidden;
+    cursor: pointer;
+    outline: none;
+    border-radius: 5px;
+}
+.up button:after{
+    content: "";
+    background:  rgb(100, 210, 120);
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px!important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s;
+}
+.up button:active:after{
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s;
+}
+.up button:hover{
+	background-color: rgb(255, 60, 60);
+}
+/*进度条*/
+.up .progressBar{
+    display: none;
+    margin-top: 1%;
+    width: 15%;
+    height: 8px;
+    background:rgb(196, 212, 207);
+    border-radius: 5px;
+}
+.up .progressBar .barContent {
+    height: 8px;
+    background: #00ff21;
+    border-radius: 5px;
+}
+
+/*文件*/
+.filelist button{
+    padding: 0px;
+    padding-top: 84px;
+    font-size: 14px;
+    overflow: hidden;
+    margin: 2%;
+    border: 0px;
+    outline: none;
+    width: 100px;
+    height: 100px;
+    background-size: 100px 100px;
+    background-image: none;
+    background-color: transparent;
+}
+.filelist button:hover{
+    background-color: rgb(153, 189, 154);
+}

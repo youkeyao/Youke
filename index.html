@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+        <title>Youke</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width" initial-scale="1.0">
+        <meta name="keywords" content="Website">
+        <meta name="description" content="My Website">
+        <meta name="author" content="Youke">
+
+        <link rel="stylesheet" type="text/css" href="./CSS/main.css">
+        <link rel="stylesheet" type="text/css" href="./CSS/index.css">
+        <script type="text/javascript" src="./JS/index.js"></script>
+	</head>
+
+	<body>
+        <!--导航栏-->
+        <div class="nav">
+            <ul>
+                <li><a href="./index.html" style="background-color: rgb(255, 60, 60);">Home</a></li>
+                <li><a href="./cv.html">Profile</a></li>
+                <li><a href="./icloud.html">iCloud</a></li>
+                <li><a href="./game.html">Game</a></li>
+            </ul> 
+        </div>
+
+        <hr />
+
+        <main>
+            <h1>An ordinary person, lives an ordinary life</h1>
+
+            <!--展示框架-->
+            <div class="show">
+
+                <!--向左按钮-->
+                <button class="left" onclick="moveLeft()" onmouseover="pause()" onmouseout="start()"></button>
+
+                <!--显示图片-->
+                <div class="imgshow">
+                    <ul id="imglist">
+                        <li><img src="./homeImg/puzzle.png"></li>
+                        <li><img src="./homeImg/sp.png"></li>
+                        <li><img src="./homeImg/bike.png"></li>
+                        <li><img src="./homeImg/puzzle.png"></li>
+                    </ul>
+                </div>
+
+                <!--向右按钮-->
+                <button class="right" onclick="moveRight()" onmouseover="pause()" onmouseout="start()"></button>
+            </div>
+        </main>
+
+    </body>
+
+</html>

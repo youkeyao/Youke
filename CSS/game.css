@@ -1,0 +1,59 @@
+/*游戏导航栏*/
+.nav-game{
+    float: left;
+    width: 15%;
+    padding: 0%;
+    margin-left: 2%;
+    margin-right: 8%;
+}
+.nav-game a{
+    display: block;
+    text-decoration: none;
+    overflow: scroll;
+    height: 50px;
+    background-color: rgb(22, 8, 61);
+    color: rgb(196, 212, 207);
+}
+.nav-game ul{
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+.nav-game ul li{
+    line-height: 50px;
+    text-align: center;
+    overflow: hidden;
+}
+.nav-game a:hover{
+    background: rgb(255, 60, 60);
+}
+
+/*游戏预览*/
+.preview{
+    float: left;
+    padding: 0%;
+    margin: 0%;
+    width: 65%;
+}
+.preview a{
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    color: rgb(30, 30, 30);
+    font-size: 18px;
+    width: 100%;
+    padding-top: 60%;
+    padding-bottom: 5%;
+    margin: 10px 0%;
+    outline: none;
+    border: 0px;
+    overflow: hidden;
+    background-size: 80% 80%;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-color: transparent;
+}
+.preview a:hover{
+    background-color: rgb(180, 180, 220);
+    cursor: pointer;
+}
