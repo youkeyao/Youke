@@ -34,16 +34,16 @@ function upload(files){
     //文件数据
     var file = files[0];
     var obj = new XMLHttpRequest();
-    var fd = new FormData();
-    fd.append('file', file);
-    fd.append('path', path.innerHTML);
-    obj.open("post", "../php/upload.php"); 
-    obj.send(fd);
     //回调函数
     obj.onreadystatechange = function(){ 
         if (obj.status == 200 && obj.readyState == 4){
             var result = obj.responseText;
+            console.log(obj);
             alert(result);
+            document.getElementById('input').value = '';
+            //隐藏进度条
+            document.getElementById('progressBar').style.display = 'none';
+            document.getElementById('barText').innerHTML = "";
             //上传成功刷新文件列表
             if(result == "Upload Successfully"){
                 refresh();
@@ -51,7 +51,7 @@ function upload(files){
             else{
                 return;
             }
-        } 
+        }
     }
     //加载进度条
     obj.upload.onprogress = function(evt){
@@ -60,11 +60,16 @@ function upload(files){
         document.getElementById('barContent').style.width = per;
         document.getElementById('barText').innerHTML = per;
     }
-    //加载完毕后隐藏
+    //等待回应
     obj.upload.onload = function(evt){
         document.getElementById('progressBar').style.display = 'none';
         document.getElementById('barText').innerHTML = "";
     }
+    var fd = new FormData();
+    fd.append('file', file);
+    fd.append('path', path.innerHTML);
+    obj.open("post", "../php/upload.php"); 
+    obj.send(fd);
 }
 
 //清楚parent子节点

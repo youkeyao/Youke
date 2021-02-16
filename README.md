@@ -1,5 +1,5 @@
 # Youke
-This is my website including homepage, profile, icloud and a frame for WebGL games built by Unity.
+This is my website including homepage, profile, icloud and some WebGL games built by Unity.
 
 ## Home
 It contains scrolling images which changes every 6 seconds. The interval and the speed are controlled by the variable `interval` and `speed` respectively in `JS/index.js`.
@@ -18,9 +18,12 @@ All files are restored in `/icloud`. You can upload and make new file when you h
 You can add more games into `/game`. Just update the `nav-game` and `preview` in `game.html` and all games' `index.html`.
 
 ## Config for nginx
+nginx.conf
 ```
+client_max_body_size 2048m; //max size
+
 location / {
-    root ;//Your directory
+    root ; //Your directory
 
     index index.html;
 
@@ -28,7 +31,7 @@ location / {
 }
 
 location ~ \.php$ {
-    root ;//Your directory
+    root ; //Your directory
 
     fastcgi_pass   unix:/run/php/php7.3-fpm.sock;#socket mode
 
@@ -38,4 +41,16 @@ location ~ \.php$ {
 
     include        fastcgi_params;
 }
+```
+
+## config for php
+fpm/php.ini
+```
+post_max_size = 2048M
+
+upload_max_filesize = 2048M
+
+max_execution_time = 600
+
+max_input_time = 600
 ```
