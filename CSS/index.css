@@ -48,26 +48,7 @@ main h1{
 }
 /*两个按钮样式*/
 .show button:hover{
-    background-color: rgb(240, 210, 180);
     cursor: pointer;
-}
-.show button:after{
-    content: "";
-    background:  rgb(100, 210, 120);
-    display: block;
-    position: absolute;
-    padding-top: 400%;
-    padding-left: 450%;
-    margin-left: -20px!important;
-    margin-top: -200%;
-    opacity: 0;
-    transition: all 0.5s;
-}
-.show button:active:after{
-    padding: 0;
-    margin: 0;
-    opacity: 1;
-    transition: 0s;
 }
 
 /*图片框架*/
@@ -79,19 +60,16 @@ main h1{
     padding-bottom: 25%;
     overflow: hidden;
 }
-.imgshow ul{
+.imgshow #imglist{
     list-style-type: none;
-    width: 400%;/*宽度为四张图片宽度*/
     height: 100%;
     position: absolute;
-    left: 0;
     top: 0;
     margin: 0;
     padding: 0;
 }
 .imgshow ul li{
     float: left;
-    width: 25%;/*宽度为一张图片宽度*/
     height: 100%;
 }
 .imgshow img{

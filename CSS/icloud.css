@@ -28,30 +28,10 @@
     height: 40px;
     padding: 0px;
     text-align: center;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    overflow: hidden;
+    transition:all 0.4s;
     cursor: pointer;
     outline: none;
     border-radius: 5px;
-}
-.up button:after{
-    content: "";
-    background:  rgb(100, 210, 120);
-    display: block;
-    position: absolute;
-    padding-top: 300%;
-    padding-left: 350%;
-    margin-left: -20px!important;
-    margin-top: -120%;
-    opacity: 0;
-    transition: all 0.8s;
-}
-.up button:active:after{
-    padding: 0;
-    margin: 0;
-    opacity: 1;
-    transition: 0s;
 }
 .up button:hover{
 	background-color: rgb(255, 60, 60);

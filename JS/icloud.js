@@ -72,7 +72,7 @@ function upload(files){
     obj.send(fd);
 }
 
-//清楚parent子节点
+//清除parent子节点
 function cleanChild(parent){
     if(!parent)return;
     var child = parent.childNodes;
@@ -121,7 +121,7 @@ function refresh(){
                     bt_new.style.display = 'none';
                 }}(bt);
                 //对于不同拓展名选择不同背景图片
-                switch(result[key]){
+                switch(result[key].toLowerCase()){
                     case 'folder': bt.style.backgroundImage = "url(../resources/folder.png)";break;
                     case 'mp3': 
                     case 'wma': bt.style.backgroundImage = "url(../resources/audio.png)";break;

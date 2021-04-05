@@ -2,11 +2,9 @@
 This is my website including homepage, profile, icloud and some WebGL games built by Unity.
 
 ## Home
-It contains scrolling images which changes every 6 seconds. The interval and the speed are controlled by the variable `interval` and `speed` respectively in `JS/index.js`.
+It contains scrolling images which changes every 6 seconds. The interval and the switch time are controlled by the variable `interval` and `switchTime` respectively in `JS/index.js`.
 
-Images can be replaced by changing the images in `/homeImg` and the name in `index.html`. Be sure the first image must be the same as the last image.
-
-Now it can only hold 3 images. To add more images, change the width of `ul` and `li` in `CSS/index.css` and `num` in `JS/index.js`.
+You can add more images into `imglist` in `index.html`. Images are located in `/homeImg`.
 
 ## Profile
 Just put the profile under the `<hr />` in `cv.html`.
@@ -15,7 +13,7 @@ Just put the profile under the `<hr />` in `cv.html`.
 All files are restored in `/icloud`. You can upload and make new file when you haven't choose a file. After you choose a file, you can download or remove it.
 
 ## Game
-You can add more games into `/game`. Just update the `nav-game` and `preview` in `game.html` and all games' `index.html`.
+You can add more games into `/game`. Just update the `nav` in all htmls and `preview` in `game.html`.
 
 ## Config for nginx
 nginx.conf
