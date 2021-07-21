@@ -4,16 +4,16 @@
 //完整路径
 $path = '../icloud' . $_POST["path"];
 
-if(pathinfo($path, PATHINFO_EXTENSION) || file_exists($path)){//已存在或不是目录
+if (pathinfo($path, PATHINFO_EXTENSION) || file_exists($path)) {//已存在或不是目录
     echo 'Error';
 }
-else{
+else {
     $result = mkdir($path, 0777);
     $result = $result && chmod($path, 0777);//读写权限
-    if($result){
+    if ($result) {
         echo 'Make Folder Successfully';
     }
-    else{
+    else {
         echo 'Error';
     }
 }

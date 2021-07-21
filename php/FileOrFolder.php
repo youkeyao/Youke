@@ -4,10 +4,10 @@
 //完整路径
 $path = '../icloud' . $_POST["path"];
 
-if(is_dir($path)){
+if (is_dir($path)) {
     echo 'dir';
 }
-else{
+else {
     echo 'file';
 }
 

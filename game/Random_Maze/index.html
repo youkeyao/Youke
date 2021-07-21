@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Youke</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width" initial-scale="1.0">
+        <meta name="keywords" content="Game">
+        <meta name="description" content="My Game">
+        <meta name="author" content="Youke">
+        
+        <link rel="stylesheet" type="text/css" href="TemplateData/style.css">
+        <link rel="stylesheet" type="text/css" href="../../CSS/main.css">
+        <link rel="stylesheet" type="text/css" href="../../CSS/game.css">
+        
+        <script src="TemplateData/UnityProgress.js"></script>
+        <script src="Build/UnityLoader.js"></script>
+        <script>
+            var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Build.json", {onProgress: UnityProgress});
+        </script>
+    </head>
+
+    <body>
+        <div class="nav">
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../cv.html">Profile</a></li>
+                <li><img src="../../resources/Logo.png"></li>
+                <li><a href="../../icloud.html">iCloud</a></li>
+                <li class="drop-down">
+                    <a href="../../game.html" style="background-color: rgb(255, 60, 60);">Game</a>
+                    <a href="../../game/Random_Maze/index.html">Random Maze</a>
+                </li>
+            </ul> 
+        </div>
+
+        <hr />
+
+        <div class="webgl-content">
+            <div id="unityContainer" style="width: 60vw; height: 60vh;"></div>
+            <div class="footer">
+                <div class="webgl-logo"></div>
+                <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+                <div class="title">Random Maze</div>
+            </div>
+        </div>
+        
+    </body>
+
+</html>

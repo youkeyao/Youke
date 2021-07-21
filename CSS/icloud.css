@@ -69,3 +69,7 @@
 .filelist button:hover{
     background-color: rgb(153, 189, 154);
 }
+
+.chosen {
+    background-color: rgb(153, 189, 154) !important;
+}

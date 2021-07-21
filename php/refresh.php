@@ -6,18 +6,18 @@ $path = '../icloud' . $_POST["path"];
 
 $file = array();
 $dir = array();
-if(!is_dir($path)){
+if (!is_dir($path)) {
     echo json_encode($file);
 }
-else{
+else {
     $data = scandir($path);
-    foreach($data as $key){
-        if($key == '.' || $key == "..")continue;
+    foreach ($data as $key) {
+        if ($key == '.' || $key == "..") continue;
         //区分文件与目录
-        if(is_dir($path . $key)){
+        if (is_dir($path . $key)) {
             $dir[$key] = 'folder';
         }
-        else{
+        else {
             $file[$key] = pathinfo($key, PATHINFO_EXTENSION);
         }
     }
