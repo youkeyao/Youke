@@ -1,4 +1,4 @@
-# Youke
+# Youke(Nginx + PHP + SQLite3)
 This is my website including homepage, profile, icloud and some WebGL games built by Unity.
 
 ## Home
@@ -10,7 +10,7 @@ You can add more images into `imglist` in `index.html`. Images are located in `/
 Just put the profile under the `<hr />` in `cv.html`.
 
 ## iCloud
-All files are restored in `/icloud`. You can upload and make new file when you haven't choose a file. After you choose a file, you can download or remove it.
+You need to log in every time you enter this page. The data is stored in `php/accounts.sql`. All files are stored in `/icloud`. You can upload and make new file when you haven't choose a file. After you choose a file, you can download or remove it.
 
 ## Game
 You can add more games into `/game`. Just update the `nav` in all htmls and `preview` in `game.html`.
@@ -31,7 +31,7 @@ location / {
 location ~ \.php$ {
     root ; //Your directory
 
-    fastcgi_pass   unix:/run/php/php7.3-fpm.sock;#socket mode
+    fastcgi_pass   unix:/run/php/php7.0-fpm.sock;#socket mode
 
     #fastcgi_pass   127.0.0.1:9000;#tcp mode
 

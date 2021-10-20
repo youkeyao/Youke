@@ -46,6 +46,7 @@ html{
     max-width: 100%;
     height: 50px;
     vertical-align: middle;
+    pointer-events: none;
 }
 
 .drop-down :not(:first-child){
