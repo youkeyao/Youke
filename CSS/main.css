@@ -1,5 +1,6 @@
 body{
-    background: rgb(197, 195, 195)
+    background: rgb(197, 195, 195);
+    margin: 8px;
 }
 
 /*去除滚动条*/
