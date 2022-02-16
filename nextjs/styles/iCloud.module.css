@@ -1,0 +1,133 @@
+.main {
+  margin: auto;
+  padding: 80px 0 20px;
+  width: 80vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  font-size: 20px;
+}
+.preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10vh 0;
+  width: 80vw;
+  height: 100vh;
+  margin: auto;
+  overflow-y: auto;
+  font-size: 25px;
+}
+.none {
+  display: none;
+}
+
+.topArea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+}
+.fileArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 5px;
+  font-family: sans-serif;
+}
+.file:hover {
+  background-color: rgba(175, 194, 255, 0.4);
+}
+.file:hover .btnArea {
+  visibility: visible;
+}
+
+.item {
+  padding: 5px;
+  width: 20%;
+  display: flex;
+  color: rgba(201, 255, 199, 0.8);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  word-break: break-all;
+}
+.itemName {
+  flex: 1;
+}
+.itemName a {
+  padding: 5px;
+  position: relative;
+}
+.itemName a:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 100%;
+  background: rgba(201, 255, 199, 0.8);
+  transform: scale(0);
+  transition: all 0.3s;
+}
+.itemName a:hover:before {
+  transform: scale(1);
+}
+.btnArea {
+  display: flex;
+  align-items: center;
+  width: 20%;
+  visibility: hidden;
+}
+.itemBtn {
+  margin: 0 5px;
+  color: rgba(201, 255, 199, 0.8);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  cursor: pointer;
+}
+.itemBtn:hover {
+  color: rgba(199, 217, 255, 0.8);
+}
+.up::before {
+  content: "\f062";
+}
+.back::before {
+  content: "\f060";
+}
+.download::before {  
+  content: "\f019";
+}
+.delete::before {
+  content: "\f1f8";
+}
+.upload::before {
+  content: "\f093";
+}
+.newFolder::before {
+  content: "\f07b";
+}
+
+.title {
+  padding-bottom: 10px;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 600px) {
+  .main {
+    font-size: 12px;
+  }
+  .preview {
+    font-size: 12px;
+  }
+}

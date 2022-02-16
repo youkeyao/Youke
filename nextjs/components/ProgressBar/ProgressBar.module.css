@@ -1,0 +1,12 @@
+.progressBar{
+  display: block;
+  width: 15%;
+  height: 8px;
+  background:rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
+}
+.barContent {
+  height: 8px;
+  background: rgb(255, 255, 255);
+  border-radius: 5px;
+}
