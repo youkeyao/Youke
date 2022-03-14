@@ -1,5 +1,6 @@
 import fs from 'fs'
 import { IncomingForm } from 'formidable'
+import { NextApiRequest, NextApiResponse } from 'next';
 
 export const config = {
   api: {
@@ -8,28 +9,29 @@ export const config = {
 }
 
 // 上传文件
-export default (req, res) => {
+export default async function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const form = new IncomingForm()
-    form.keepExtensions = true;
-    form.multiples = true;
+    const form = new IncomingForm();
+    form.options.keepExtensions = true;
+    form.options.multiples = true;
+    form.options.maxFileSize = 1024 * 1024 * 1024;
     form.uploadDir = 'tmp'; //临时目录
     // 进度条
-    form.on("progress", (recivedByte: number, totalByte: number) => {
-      const percent = (recivedByte * 100 / totalByte).toFixed(1);
-      res.write(percent + ' ');
-      if (recivedByte == totalByte) {
+    await new Promise((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        // 从临时目录移到正确目录
+        Object.keys(files).forEach((k) => {
+          fs.renameSync(files[k].filepath, process.env.root + fields.path + files[k].originalFilename);
+        });
         res.statusCode = 200;
-        res.send();
-      }
+        res.end();
+        resolve(200);
+      });      
     });
-    form.parse(req, (err, fields, files) => {
-      if (err) throw err;
-      // 从临时目录移到正确目录
-      Object.keys(files).forEach((k) => {
-        fs.renameSync(files[k].filepath, process.env.root + fields.path + files[k].originalFilename);
-      });
-    })
   }
   catch (ex) {
     console.error(ex.stack);

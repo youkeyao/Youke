@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path'
 
 const countSize = (size: number) => {
@@ -43,11 +44,11 @@ export function readDir(p: string) {
 }
 
 // 获得路径下文件信息
-export default (req, res) => {
+export default function getFiles(req: NextApiRequest, res: NextApiResponse) {
   try {
     const ret = readDir(req.body);
     res.json(ret);
-    res.send();
+    res.end();
   }
   catch (ex) {
     console.error(ex.stack);

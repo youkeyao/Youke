@@ -1,16 +1,18 @@
 import fs from 'fs'
+import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path'
 
 // 下载文件
-export default (req, res) => {
+export default function downloadFile(req: NextApiRequest, res: NextApiResponse) {
   try {
     const fileStream = fs.createReadStream(process.env.root + req.body);
-    res.writeHead(200, {"Content-Type": mime[path.extname(req.body)]});
+    const type = mime[path.extname(req.body)] ? mime[path.extname(req.body)] : "text/plain";
+    res.writeHead(200, {"Content-Type": type});
     fileStream.on('data', (data) => {
       res.write(data, 'binary');
     });
     fileStream.on('end', () => {
-      res.send();
+      res.end();
     });
   }
   catch (ex) {

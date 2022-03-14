@@ -82,7 +82,7 @@ export default function ICloud(props) {
       // 显示目录
       SetFiles([...props.files]);
     }
-  }, [props.path]);
+  }, [props.path, props.filename, props.files]);
 
   // 失败弹窗
   const failDialog = (msg) => {
@@ -93,40 +93,65 @@ export default function ICloud(props) {
 
   // 上传文件
   const uploadFile = (e) => {
-    const form = new FormData();
-    form.append("path", props.path);
-    for (let i = 0; i < e.target.files.length; i ++) {
-      form.append("files" + i, e.target.files[i]);
-    }
-    fetch("/api/auth/uploadFiles", {body: form, method: 'POST', credentials: 'include'}).then((res) => {
-      if (res.status != 200) {
-        throw new Error();
+    if (e.target.files.length == 0) return;
+    try {
+      const form = new FormData();
+      form.append("path", props.path);
+      for (let i = 0; i < e.target.files.length; i ++) {
+        form.append("files" + i, e.target.files[i]);
       }
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder('utf-8');
-      const push = ({value, done}) => {
-        console.log(done);
-        const per = decoder.decode(value).split(' ').slice(-2)[0];
-        if (done) {
-          SetPer(0);
-          // 更新文件目录
-          fetch("/api/auth/getFiles", {body: props.path, method: 'POST', credentials: 'include'}).then((res) => {
-            return res.json();
-          }).then((data) => {
-            SetFiles([...data]);
-          });
-          return;
+      // fetch("/api/auth/uploadFiles", {body: form, method: 'POST', credentials: 'include'}).then((res) => {
+      //   const reader = res.body.getReader();
+      //   const decoder = new TextDecoder('utf-8');
+      //   const push = ({value, done}) => {
+      //     const per = decoder.decode(value, { stream: true }).split(' ').slice(-2)[0];
+      //     console.log(decoder.decode(value, { stream: true }));
+      //     if (done) {
+      //       SetPer(0);
+      //       // 更新文件目录
+      //       fetch("/api/auth/getFiles", {body: props.path, method: 'POST', credentials: 'include'}).then((res) => {
+      //         return res.json();
+      //       }).then((data) => {
+      //         SetFiles([...data]);
+      //       });
+      //       return;
+      //     }
+      //     else {
+      //       // 更新进度条
+      //       SetPer(parseFloat(per));
+      //       return reader.read().then(push);
+      //     }
+      //   };
+      //   return reader.read().then(push);
+      // }).catch((err) => {
+      //   failDialog('Upload Fail');
+      // });
+      let obj = new XMLHttpRequest();
+      // 完成
+      obj.onreadystatechange = () => { 
+        if (obj.status != 200 && obj.readyState == 4) {
+          failDialog('Upload Fail');
         }
-        else {
-          // 更新进度条
-          SetPer(parseFloat(per));
-          return reader.read().then(push);
-        }
-      };
-      return reader.read().then(push);
-    }).catch((err) => {
-      failDialog('New Folder Fail');
-    });
+        SetPer(0);
+        // 更新文件目录
+        fetch("/api/auth/getFiles", {body: props.path, method: 'POST', credentials: 'include'}).then((res) => {
+          return res.json();
+        }).then((data) => {
+          SetFiles([...data]);
+        });
+      }
+      // 加载进度条
+      obj.upload.onprogress = (evt) => {
+        let per = (evt.loaded / evt.total) * 100;
+        SetPer(per);
+      }
+      obj.open("post", "/api/auth/uploadFiles"); 
+      obj.send(form);
+    }
+    catch (err) {
+      failDialog('Upload Fail');
+    }
+    inputRef.current.value = null;
   };
 
   // 新建文件夹
@@ -137,8 +162,7 @@ export default function ICloud(props) {
     }
     fetch("/api/auth/newFolder", {body: props.path + str, method: 'POST', credentials: 'include'}).then((res) => {
       if (res.status != 200) {
-        failDialog('New Folder Fail');
-        return;
+        throw new Error('New Folder Fail');
       }
       // 更新文件目录
       fetch("/api/auth/getFiles", {body: props.path, method: 'POST', credentials: 'include'}).then((res) => {
@@ -146,6 +170,8 @@ export default function ICloud(props) {
       }).then((data) => {
         SetFiles([...data]);
       });
+    }).catch((err) => {
+      failDialog('New Folder Fail');
     });
   };
 
@@ -153,8 +179,7 @@ export default function ICloud(props) {
   const deleteFile = (str) => {
     fetch("/api/auth/deleteFile", {body: props.path + str, method: 'POST', credentials: 'include'}).then((res) => {
       if (res.status != 200) {
-        failDialog('Delete Fail');
-        return;
+        throw new Error('Delete Fail');
       }
       // 更新文件目录
       fetch("/api/auth/getFiles", {body: props.path, method: 'POST', credentials: 'include'}).then((res) => {
@@ -162,6 +187,8 @@ export default function ICloud(props) {
       }).then((data) => {
         SetFiles([...data]);
       });
+    }).catch((err) => {
+      failDialog('Delete Fail');
     });
   }
 
@@ -169,8 +196,7 @@ export default function ICloud(props) {
   const downloadFile = (str) => {
     fetch("/api/auth/downloadFile", {body: props.path + str, method: 'POST', credentials: 'include'}).then((res) => {
       if (res.status != 200) {
-        failDialog('Download Fail');
-        return;
+        throw new Error('Download Fail');
       }
       return res.blob();
     }).then((blob) => {
@@ -184,7 +210,7 @@ export default function ICloud(props) {
       URL.revokeObjectURL(tmpNode.href);
       document.body.removeChild(tmpNode);
     }).catch((error) => {
-      console.log(error);
+      failDialog('Download Fail');
     });
   }
 

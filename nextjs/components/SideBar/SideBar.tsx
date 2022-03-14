@@ -7,6 +7,7 @@ import style from "./SideBar.module.css"
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Profile", href: "/profile" },
+  { name: "Blog", href: "/blog" },
   { name: "iCloud", href: "/icloud" },
 ];
 
@@ -21,6 +22,9 @@ export default function SideBar(props) {
   const isArea = (item) => {
     if (item.name == "Home" || item.name == "Profile") {
       return router.route === item.href;
+    }
+    else if (item.name == "Blog") {
+      return router.route.substring(0, 5) == item.href;
     }
     else {
       return router.route === '/login' || router.route.substring(0, 7) == item.href;

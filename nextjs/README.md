@@ -1,12 +1,19 @@
 # Youke(Next.js)
-This is my website including homepage, profile, icloud built by Next.js. The profile builds from `/posts/profile.md`. The icloud supports url navigation and file preview.
+This is my website including homepage, profile, blog, icloud built by Next.js. The profile builds from `/posts/profile.md`. The blog builds from `/posts/blog/`. The icloud supports url navigation and file preview.
 
 ## Modules
+- react
+- react-dom
 - next
 - typescript
 - formidable
 - nookies
 - jsonwebtoken
+- react-markdown
+- remark-gfm
+- remark-math
+- rehype-katex
+- react-syntax-highlighter
 
 ## Structure
 ```
@@ -18,8 +25,10 @@ This is my website including homepage, profile, icloud built by Next.js. The pro
         |-- login.tsx (api for login)
     |-- icloud
         |-- [[...path]].tsx (icloud page)
-    |-- other page
+    |-- ...
 |-- posts
+    |-- blog
+        |-- ...
     |-- profile.md (profile in markdown)
 |-- styles (CSS files for pages)
 |-- tmp (temporary dir to save upload files)

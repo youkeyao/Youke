@@ -66,6 +66,10 @@ A student major in Electrical Engineering, minor in computer science, just learn
 
     PLC LAD program + touch screen UI.
 
+- GPU-based path tracer in OpenGL
+
+    BVH + BRDF + importance sampling
+
 ## Competitions
 - 2020 Contemporary Undergraduate Mathematical Contest in Modeling
 - 2021 The Mathematics Contest in Modeling
@@ -73,7 +77,7 @@ A student major in Electrical Engineering, minor in computer science, just learn
 
 ## Interests
 - Program (C++, Python, Java)
+- Singlechip (Arduino, Raspberry, Tiva)
 - 3D Modeling (Blender)
-- Electronic Design (Arduino, Raspberry)
 - Rubik's Cube
 - ACG

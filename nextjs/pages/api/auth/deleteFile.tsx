@@ -1,7 +1,8 @@
 import fs from 'fs'
+import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path'
 
-const removeFileOrDir = (p) => {
+const removeFileOrDir = (p: string) => {
   const stat = fs.statSync(p);
   if (stat.isDirectory()) {
     const files = fs.readdirSync(p);
@@ -16,7 +17,7 @@ const removeFileOrDir = (p) => {
 }
 
 // 上传文件
-export default (req, res) => {
+export default function deleteFiles(req: NextApiRequest, res: NextApiResponse) {
   try {
     removeFileOrDir(process.env.root + req.body);
     res.statusCode = 200;
