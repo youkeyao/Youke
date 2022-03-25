@@ -19,13 +19,22 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const name = decodeURIComponent(params.name.toString()).replace(',', '/');
-  const data = fs.readFileSync("./posts/blog/" + name, 'utf-8');
-  
-  return {
-    props: {
-      title: data.match(/---\n([\d\D]*)\n---/)[1].match(/title: (.*)/)[1],
-      date: data.match(/---\n([\d\D]*)\n---/)[1].match(/date: (.*)/)[1],
-      content: data.match(/---([\d\D]*)---\n([\d\D]*)/)[2]
+  try {
+    const data = fs.readFileSync("./posts/blog/" + name, 'utf-8');
+    return {
+      props: {
+        title: data.match(/---\n([\d\D]*)\n---/)[1].match(/title: (.*)/)[1],
+        date: data.match(/---\n([\d\D]*)\n---/)[1].match(/date: (.*)/)[1],
+        content: data.match(/---([\d\D]*)---\n([\d\D]*)/)[2]
+      }
+    }
+  }
+  catch {
+    return {
+      redirect: {
+        destination: '/blog',
+        permanent: false,
+      },
     }
   }
 }
@@ -41,7 +50,7 @@ export default function Blog(props) {
           rehypePlugins={[rehypeKatex]}
           components={{
             code({node, inline, className, children, ...props}) {
-              const match = /language-(\w+)/.exec(className || '')
+              const match = /language-(\w+)/.exec(className || '');
               return !inline && match ? (
                 <SyntaxHighlighter
                   style={vscDarkPlus}
@@ -53,7 +62,7 @@ export default function Blog(props) {
                 <code className={className} {...props}>
                   {children}
                 </code>
-              )
+              );
             }
           }}
         >{props.content}</ReactMarkdown>

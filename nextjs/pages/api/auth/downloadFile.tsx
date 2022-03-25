@@ -5,13 +5,34 @@ import path from 'path'
 // 下载文件
 export default function downloadFile(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const fileStream = fs.createReadStream(process.env.root + req.body);
-    const type = mime[path.extname(req.body)] ? mime[path.extname(req.body)] : "text/plain";
-    res.writeHead(200, {"Content-Type": type});
-    fileStream.on('data', (data) => {
-      res.write(data, 'binary');
+    const filePath = process.env.root + req.query.path;
+    const stat = fs.statSync(filePath);
+    let start = 0;
+    let end = stat.size - 1;
+    let statusCode = 200;
+    if (req.headers.range) {
+      const range = req.headers.range.split('=')[1].split('-');
+      start = parseInt(range[0]);
+      end = (range[1] == '' ? stat.size : parseInt(range[1])) - 1;
+      statusCode = 206;
+    }
+
+    const fileStream = fs.createReadStream(filePath, {start: start, end: end});
+    const type = mime[path.extname(filePath)] ? mime[path.extname(filePath)] : "text/plain";
+    res.writeHead(statusCode, {
+      "Content-Type": type,
+      'Accept-Ranges': 'bytes',
+      "Content-Range": 'bytes ' + start + '-' + end + '/' + stat.size,
+      "Content-Length": end - start + 1,
+    });
+
+    fileStream.on('open', () => {
+      fileStream.pipe(res);
     });
     fileStream.on('end', () => {
+      res.end();
+    });
+    fileStream.on('error', () => {
       res.end();
     });
   }

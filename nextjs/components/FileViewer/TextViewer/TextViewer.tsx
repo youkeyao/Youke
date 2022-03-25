@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import style from './TextViewer.module.css'
 
 export default function TextViewer(props) {
-  const [text, SetText]: [string, Function] = useState('');
+  const [text, SetText]: [string, Function] = useState('loading...');
 
   useEffect(() => {
     if (!props.src) return;
-    fetch(props.src, {method: 'Get'}).then((res) => {
+    fetch("/api/auth/downloadFile?path="+props.src, {method: 'Get'}).then((res) => {
       return res.text();
     }).then((data) => {
       SetText(data);

@@ -58,7 +58,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 export default function ICloud(props) {
-  const [url, SetURL]: [string, Function] = useState('');
   const [files, SetFiles] = useState(props.files);
   const [percentage, SetPer]: [number, Function] = useState(0);
   const [isShowDialog, SetDialog]: [boolean, Function] = useState(false);
@@ -67,22 +66,11 @@ export default function ICloud(props) {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (props.filename) {
-      // 获取预览文件
-      fetch("/api/auth/downloadFile", {body: props.path, method: 'POST', credentials: 'include'}).then((res) => {
-        if (res.status != 200) {
-          console.log('Download Fail');
-        }
-        return res.blob();
-      }).then((blob) => {
-        SetURL(URL.createObjectURL(blob));
-      });
-    }
-    else {
-      // 显示目录
+    // 显示目录
+    if (props.files) {
       SetFiles([...props.files]);
     }
-  }, [props.path, props.filename, props.files]);
+  }, [props.files]);
 
   // 失败弹窗
   const failDialog = (msg) => {
@@ -100,32 +88,6 @@ export default function ICloud(props) {
       for (let i = 0; i < e.target.files.length; i ++) {
         form.append("files" + i, e.target.files[i]);
       }
-      // fetch("/api/auth/uploadFiles", {body: form, method: 'POST', credentials: 'include'}).then((res) => {
-      //   const reader = res.body.getReader();
-      //   const decoder = new TextDecoder('utf-8');
-      //   const push = ({value, done}) => {
-      //     const per = decoder.decode(value, { stream: true }).split(' ').slice(-2)[0];
-      //     console.log(decoder.decode(value, { stream: true }));
-      //     if (done) {
-      //       SetPer(0);
-      //       // 更新文件目录
-      //       fetch("/api/auth/getFiles", {body: props.path, method: 'POST', credentials: 'include'}).then((res) => {
-      //         return res.json();
-      //       }).then((data) => {
-      //         SetFiles([...data]);
-      //       });
-      //       return;
-      //     }
-      //     else {
-      //       // 更新进度条
-      //       SetPer(parseFloat(per));
-      //       return reader.read().then(push);
-      //     }
-      //   };
-      //   return reader.read().then(push);
-      // }).catch((err) => {
-      //   failDialog('Upload Fail');
-      // });
       let obj = new XMLHttpRequest();
       // 完成
       obj.onreadystatechange = () => { 
@@ -194,24 +156,18 @@ export default function ICloud(props) {
 
   // 下载文件
   const downloadFile = (str) => {
-    fetch("/api/auth/downloadFile", {body: props.path + str, method: 'POST', credentials: 'include'}).then((res) => {
-      if (res.status != 200) {
-        throw new Error('Download Fail');
-      }
-      return res.blob();
-    }).then((blob) => {
-      // Blob实现下载
+    try {
       const tmpNode = document.createElement('a');
       tmpNode.download = str;
       tmpNode.style.display = 'none';
-      tmpNode.href = URL.createObjectURL(blob);
+      tmpNode.href = "/api/auth/downloadFile?path="+props.path+str;
       document.body.appendChild(tmpNode);
       tmpNode.click();
-      URL.revokeObjectURL(tmpNode.href);
       document.body.removeChild(tmpNode);
-    }).catch((error) => {
+    }
+    catch {
       failDialog('Download Fail');
-    });
+    }
   }
 
   return (
@@ -220,11 +176,11 @@ export default function ICloud(props) {
     <div className={style.preview}>
       <p className={style.title}>
         <Link href={'/icloud'+props.path.split('/').slice(0, -1).join('/')}>
-          <a className={`${style.itemBtn} ${style.back}`} onClick={() => URL.revokeObjectURL(url)}></a>
+          <a className={`${style.itemBtn} ${style.back}`}></a>
         </Link>
         {props.filename}
       </p>
-      <FileViewer fileType={props.ext} src={url} />
+      <FileViewer fileType={props.ext} src={props.path} />
     </div> :
     // iCloud
     <div className={style.main}>

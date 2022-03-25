@@ -9,6 +9,11 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>Youke</title>
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://use.fontawesome.com/releases/v5.11.1/css/all.css"
+        />
       </Head>
       <SideBar />
       <Component {...pageProps} />

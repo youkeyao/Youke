@@ -1,13 +1,12 @@
-@import url("https://use.fontawesome.com/releases/v5.11.1/css/all.css");
-
 html,
 body {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 body {
-  width: 100%;
-  height: 100vh;
   background-image: radial-gradient(circle 70vw at center, #72c4c8 0%, #73a6b3 47%, #1e8f8f 100%);
 }
 
