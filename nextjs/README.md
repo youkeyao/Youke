@@ -1,5 +1,16 @@
 # Youke(Next.js)
-This is my website including homepage, profile, blog, icloud built by Next.js. The profile builds from `/posts/profile.md`. The blog builds from `/posts/blog/`. The icloud supports url navigation and file preview.
+This is my website built by Next.js.
+
+## Contents
+- homepage
+- profile
+   - builds from `/posts/profile.md`
+- blog
+   - builds from `/posts/blog/`
+- icloud
+   - support url navigation and file preview
+- music
+   - use neteasecloud api
 
 ## Modules
 - react

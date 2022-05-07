@@ -18,7 +18,7 @@ export default function downloadFile(req: NextApiRequest, res: NextApiResponse) 
     }
 
     const fileStream = fs.createReadStream(filePath, {start: start, end: end});
-    const type = mime[path.extname(filePath)] ? mime[path.extname(filePath)] : "text/plain";
+    const type = mime[path.extname(filePath)] ? mime[path.extname(filePath)] : "multipart/form-data";
     res.writeHead(statusCode, {
       "Content-Type": type,
       'Accept-Ranges': 'bytes',

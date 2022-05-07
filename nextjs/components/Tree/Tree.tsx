@@ -15,7 +15,7 @@ export default function Tree(props) {
     }
   };
 
-  const item = (data, parent) => {
+  const item = (data: Array<any>, parent: string) => {
     return data.map(v => {
       if (!v.children) {
         const url = parent + '/' + encodeURIComponent(v.name);

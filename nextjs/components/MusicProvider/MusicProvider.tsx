@@ -1,0 +1,143 @@
+import { createContext, useEffect, useRef, useState } from 'react'
+
+export const MusicContext = createContext(null);
+
+export function MusicProvider({ children }) {
+  let [musicInfos, SetInfos]: [Array<any>, Function] = useState([]);
+  const [musicPos, SetPos]: [number, Function] = useState(-1);
+  const [musicURL, SetURL]: [string, Function] = useState('');
+  const [isPause, SetPause]: [boolean, Function] = useState(true);
+  const [curOrder, SetOrder]: [boolean, Function] = useState(true);
+  const audioRef = useRef(null);
+
+  const storeMusic = () => {
+    if (musicInfos.length == 0) {
+      window.localStorage.removeItem('musicInfos');
+    }
+    else {
+      window.localStorage.setItem('musicInfos', JSON.stringify(musicInfos));
+    }
+  };
+
+  const getPos = (id: number) => {
+    for (let i = 0; i < musicInfos.length; i ++) {
+      if (musicInfos[i].id === id) return i;
+    }
+    return -1;
+  };
+
+  const addMusic = (id: number, info: any) => {
+    if (getPos(id) < 0) {
+      musicInfos.push({
+        id: id,
+        name: info.name,
+        singer: info.singer
+      })
+      SetInfos([...musicInfos]);
+      storeMusic();
+    }
+    setMusic(id);
+  };
+
+  const removeMusic = (key: number) => {
+    if (key >= musicInfos.length) return;
+    musicInfos.splice(key, 1);
+    SetInfos([...musicInfos]);
+    if (key == musicPos) {
+      SetPause(true);
+      audioRef.current.currentTime = 0;
+      SetURL('');
+      nextMusic();
+    }
+    else if (key < musicPos) {
+      SetPos(musicPos - 1);
+    }
+    storeMusic();
+  }
+
+  const setMusic = (id: number) => {
+    const body = {
+      api: '/weapi/song/enhance/player/url',
+      data: {
+        ids: [id],
+        id: id,
+        br: 999000,
+      },
+    }
+    fetch("/api/neteasecloud", {body: JSON.stringify(body), method: 'POST'}).then((res) => {
+      return res.json();
+    }).then((data) => {
+      if (data.data[0].url) {
+        SetPos(getPos(id));
+        SetURL(data.data[0].url);
+        audioRef.current.play();
+        SetPause(audioRef.current.paused);
+      }
+      else {
+        removeMusic(getPos(id));
+      }
+    });
+  };
+
+  const prevMusic = () => {
+    if (musicInfos.length == 0) {
+      SetPos(-1);
+      return;
+    }
+    if (curOrder) {
+      setMusic(musicInfos[(musicPos + musicInfos.length - 1) % musicInfos.length]?.id);
+    }
+    else {
+      setMusic(musicInfos[(musicPos + Math.floor((musicInfos.length - 1) * Math.random()) + 1) % musicInfos.length]?.id);
+    }
+  };
+
+  const nextMusic = () => {
+    if (musicInfos.length == 0) {
+      SetPos(-1);
+      return;
+    }
+    if (curOrder) {
+      setMusic(musicInfos[(musicPos + 1) % musicInfos.length]?.id);
+    }
+    else {
+      setMusic(musicInfos[(musicPos + Math.floor((musicInfos.length - 1) * Math.random()) + 1) % musicInfos.length]?.id);
+    }
+  };
+
+  useEffect(() => {
+    audioRef.current.onplay = () => SetPause(false);
+    audioRef.current.onpause = () => SetPause(true);
+
+    if (window.localStorage.getItem('musicInfos')) {
+      musicInfos = JSON.parse(window.localStorage.getItem('musicInfos'))
+      SetInfos(musicInfos);
+      setMusic(musicInfos[0].id);
+    }
+    return () => {
+      audioRef.current.onplay = null;
+      audioRef.current.onpause = null;
+    };
+  }, []);
+
+  const value = {
+    audioRef: audioRef,
+    isPause: isPause,
+    musicInfos: musicInfos,
+    musicPos: musicPos,
+    curOrder: curOrder,
+    addMusic: addMusic,
+    removeMusic: removeMusic,
+    setMusic: setMusic,
+    prevMusic: prevMusic,
+    nextMusic: nextMusic,
+    changeOrder: () => SetOrder((order: boolean) => !order)
+  }
+
+  return (
+    <MusicContext.Provider value={value}>
+      <audio src={musicURL} ref={audioRef} onEnded={nextMusic}></audio>
+      { children }
+    </MusicContext.Provider>
+  )
+}

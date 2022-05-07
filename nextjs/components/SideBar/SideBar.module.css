@@ -58,6 +58,39 @@
   background: rgba(0,0,0,0.6);
 }
 
+.audioBtn {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.audioBtn * {
+  margin: 5px;
+}
+.audioBtn *:hover::before {
+  color: rgba(0, 0, 0, 0.5);
+}
+.play::before {
+  margin: 5px;
+  content: "\f04b";
+}
+.pause::before {
+  margin: 5px;
+  content: "\f04c";
+}
+.prev::before {
+  content: "\f048";
+}
+.next::before {
+  content: "\f051";
+}
+
 .category {
   width: 100%;
   height: 100%;
