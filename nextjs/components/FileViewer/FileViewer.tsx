@@ -1,7 +1,7 @@
 import style from "./FileViewer.module.css"
 
 import AudioViewer from "./AudioViewer/AudioViewer";
-import VideoViewer from "./Video/VideoViewer";
+import VideoViewer from "./VideoViewer/VideoViewer";
 import ImgViewer from "./ImgViewer/ImgViewer";
 import TextViewer from "./TextViewer/TextViewer";
 import UnsupportedViewer from "./UnsupportedViewer/UnsupportedViewer";

@@ -13,14 +13,14 @@ import { isValid } from '../api/login';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // 判断是否登陆
-  if (!isValid(context)) {
+  /*if (!isValid(context.req.cookies.token)) {
     return {
       redirect: {
         destination: '/login',
         permanent: false,
       },
     }
-  }
+  }*/
   
   const path = require('path');
   const p = context.query.path ? '/' + (context.query.path as string[]).join('/') : '/';

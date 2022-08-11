@@ -32,3 +32,11 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# iCloud
+next.config.js
+/iCloud
+
+# log
+runtime.log
+memo

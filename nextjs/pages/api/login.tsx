@@ -1,9 +1,8 @@
 import nookies from 'nookies'
 import jwt from 'jsonwebtoken'
 
-// 判断token是否合法，s: string | NextApiRequest
-export function isValid(s) {
-  const token = typeof s === 'string' ? s : nookies.get(s).token;
+// 判断token是否合法
+export function isValid(token: string) {
   try {
     jwt.verify(token, process.env.secret);
     return true;
@@ -18,7 +17,11 @@ export default function login(req, res) {
   console.log(new Date(Date.now()).toLocaleString());
   try {
     const user = JSON.parse(req.body);
-    if (user.username == process.env.username && user.password == process.env.password) {
+    if (user.token && isValid(user.token)) {
+      res.statusCode = 200;
+      res.end();
+    }
+    else if (user.username == process.env.username && user.password == process.env.password) {
       console.log(req.body);
       res.statusCode = 200;
       nookies.set({res}, 'token', jwt.sign(user.username, process.env.secret), {
@@ -34,7 +37,7 @@ export default function login(req, res) {
   }
   catch (ex) {
     console.log(ex.stack);
-    res.statusCode = 403;
+    res.statusCode = 401;
     res.end();
   }
 }
