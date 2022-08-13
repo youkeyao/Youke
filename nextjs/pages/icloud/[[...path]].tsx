@@ -5,23 +5,12 @@ import Link from 'next/link'
 import style from '../../styles/iCloud.module.css'
 
 import ProgressBar from "../../components/ProgressBar/ProgressBar"
-import Dialog from "../../components/Dialog/Dialog"
+import Modal from "../../components/Modal/Modal"
 import FileViewer from '../../components/FileViewer/FileViewer';
 
 import { readDir, handlePath } from "../api/auth/getFiles"
-import { isValid } from '../api/login';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // 判断是否登陆
-  /*if (!isValid(context.req.cookies.token)) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    }
-  }*/
-  
   const path = require('path');
   const p = context.query.path ? '/' + (context.query.path as string[]).join('/') : '/';
   // 处理路径
@@ -58,25 +47,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 export default function ICloud(props) {
-  const [files, SetFiles] = useState(props.files);
-  const [percentage, SetPer]: [number, Function] = useState(0);
-  const [isShowDialog, SetDialog]: [boolean, Function] = useState(false);
-  const [isShowInput, SetInput]: [boolean, Function] = useState(false);
-  const [dialogTitle, SetTitle]: [string, Function] = useState('');
+  const [files, setFiles] = useState(props.files);
+  const [percentage, setPer] = useState(0);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isShowInput, setInput] = useState(false);
+  const [modalTitle, setTitle] = useState('');
   const inputRef = useRef(null);
 
   useEffect(() => {
     // 显示目录
     if (props.files) {
-      SetFiles([...props.files]);
+      setFiles([...props.files]);
     }
   }, [props.files]);
 
   // 失败弹窗
-  const failDialog = (msg) => {
-    SetInput(false);
-    SetTitle(msg);
-    SetDialog(true);
+  const failModal = (msg) => {
+    setInput(false);
+    setTitle(msg);
+    setModalVisible(true);
   };
 
   // 上传文件
@@ -92,26 +81,26 @@ export default function ICloud(props) {
       // 完成
       obj.onreadystatechange = () => { 
         if (obj.status != 200 && obj.readyState == 4) {
-          failDialog('Upload Fail');
+          failModal('Upload Fail');
         }
-        SetPer(0);
+        setPer(0);
         // 更新文件目录
         fetch("/api/auth/getFiles", {body: props.path, method: 'POST', credentials: 'include'}).then((res) => {
           return res.json();
         }).then((data) => {
-          SetFiles([...data]);
+          setFiles([...data]);
         });
       }
       // 加载进度条
       obj.upload.onprogress = (evt) => {
         let per = (evt.loaded / evt.total) * 100;
-        SetPer(per);
+        setPer(per);
       }
       obj.open("post", "/api/auth/uploadFiles"); 
       obj.send(form);
     }
     catch (err) {
-      failDialog('Upload Fail');
+      failModal('Upload Fail');
     }
     inputRef.current.value = null;
   };
@@ -119,7 +108,7 @@ export default function ICloud(props) {
   // 新建文件夹
   const newFolder = (str) => {
     if (str.search('/') != -1) {
-      failDialog('Invalid Folder Name');
+      failModal('Invalid Folder Name');
       return;
     }
     fetch("/api/auth/newFolder", {body: props.path + str, method: 'POST', credentials: 'include'}).then((res) => {
@@ -130,10 +119,10 @@ export default function ICloud(props) {
       fetch("/api/auth/getFiles", {body: props.path, method: 'POST', credentials: 'include'}).then((res) => {
         return res.json();
       }).then((data) => {
-        SetFiles([...data]);
+        setFiles([...data]);
       });
     }).catch((err) => {
-      failDialog('New Folder Fail');
+      failModal('New Folder Fail');
     });
   };
 
@@ -147,10 +136,10 @@ export default function ICloud(props) {
       fetch("/api/auth/getFiles", {body: props.path, method: 'POST', credentials: 'include'}).then((res) => {
         return res.json();
       }).then((data) => {
-        SetFiles([...data]);
+        setFiles([...data]);
       });
     }).catch((err) => {
-      failDialog('Delete Fail');
+      failModal('Delete Fail');
     });
   }
 
@@ -166,7 +155,7 @@ export default function ICloud(props) {
       document.body.removeChild(tmpNode);
     }
     catch {
-      failDialog('Download Fail');
+      failModal('Download Fail');
     }
   }
 
@@ -195,7 +184,7 @@ export default function ICloud(props) {
         <div>
           <input className={style.none} type='file' ref={inputRef} onChange={uploadFile} multiple></input>
           <a className={`${style.itemBtn} ${style.upload}`} onClick={() => inputRef.current.click()}></a>
-          <a className={`${style.itemBtn} ${style.newFolder}`} onClick={() => {SetInput(true);SetTitle('New Folder');SetDialog(true);}}></a>
+          <a className={`${style.itemBtn} ${style.newFolder}`} onClick={() => {setInput(true);setTitle('New Folder');setModalVisible(true);}}></a>
         </div>
       </div>
       <div className={style.row}>
@@ -221,7 +210,18 @@ export default function ICloud(props) {
           </div>
         ))}
       </div>
-      <Dialog isShowDialog={isShowDialog} SetDialog={SetDialog} isShowInput={isShowInput} title={dialogTitle} Func={newFolder} />
+      <Modal
+        isVisible={isModalVisible}
+        title={modalTitle}
+        isShowInput={isShowInput}
+        onCancel={() => {
+          setModalVisible(false);
+        }}
+        onConfirm={(v) => {
+          setModalVisible(false);
+          newFolder(v);
+        }}
+      />
     </div>
   )
 }

@@ -1,13 +1,14 @@
 import { useRef, useState } from 'react';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import style from '../styles/Login.module.css'
 
-import Dialog from "../components/Dialog/Dialog"
+import Modal from "../components/Modal/Modal"
 
 export default function Login(props) {
-  const [isShowDialog, SetDialog]: [boolean, Function] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
   const userRef = useRef(null);
   const pswRef = useRef(null);
+  const router = useRouter();
 
   const login = (e) => {
     e.preventDefault();
@@ -15,10 +16,10 @@ export default function Login(props) {
       if (res.status != 200) {
         userRef.current.value = '';
         pswRef.current.value = '';
-        SetDialog(true);
+        setModalVisible(true);
         return;
       }
-      Router.push({pathname: "/icloud"})
+      router.push({pathname: "/icloud"})
     });
   }
 
@@ -32,7 +33,12 @@ export default function Login(props) {
           <button className={style.button} type="submit">login</button>
         </form>
       </div>
-      <Dialog isShowDialog={isShowDialog} SetDialog={SetDialog} isShowInput={false} title='Login Fail'></Dialog>
+      <Modal
+        isVisible={isModalVisible}
+        title='Login Fail'
+        onCancel={() => setModalVisible(false)}
+        onConfirm={(e) => setModalVisible(false)}
+      />
     </div>
   )
 }

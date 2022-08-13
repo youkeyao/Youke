@@ -7,8 +7,8 @@ import { MusicContext } from '../components/MusicProvider/MusicProvider';
 export default function Music(props) {
   const musicProvider = useContext(MusicContext);
 
-  const [isSearch, SetSearch] = useState(false);
-  const [results, SetResults] = useState([]);
+  const [isSearch, setSearch] = useState(false);
+  const [results, setResults] = useState([]);
   const input = useRef(null);
 
   const search = (keywords) => {
@@ -25,7 +25,7 @@ export default function Music(props) {
     fetch("/api/neteasecloud", {body: JSON.stringify(body), method: 'POST'}).then((res) => {
       return res.json();
     }).then((data) => {
-      if (data.result) SetResults([...data.result.songs]);
+      if (data.result) setResults([...data.result.songs]);
     });
   };
 
@@ -69,7 +69,7 @@ export default function Music(props) {
             <p className={`${style.item} ${style.itemName}`}>Name</p>
             <div className={style.btnArea}></div>
             <p className={style.item}>Singer</p>
-            <a className={`${style.itemBtn} ${style.search}`} onClick={() => SetSearch(true)}></a>
+            <a className={`${style.itemBtn} ${style.search}`} onClick={() => setSearch(true)}></a>
           </div>
           <div className={style.resultArea}>
             {musicProvider.musicInfos.map((item, key) => (
@@ -88,7 +88,7 @@ export default function Music(props) {
         </div>
         <div className={style.container}>
           <div className={style.searchBox}>
-            <a className={`${style.itemBtn} ${style.back}`} onClick={() => SetSearch(false)}></a>
+            <a className={`${style.itemBtn} ${style.back}`} onClick={() => setSearch(false)}></a>
             <input className={style.searchInput} ref={input} placeholder="" onKeyDown={enterInput} />
             <a className={style.searchIcon} onClick={() => search(input.current.value)}></a>
           </div>
@@ -97,7 +97,13 @@ export default function Music(props) {
               <div className={style.row} key={item.id}>
                 <p className={`${style.item} ${style.itemName}`}>{item.name}</p>
                 <div className={style.btnArea}>
-                  <a className={`${style.itemBtn} ${style.add}`} onClick={() => {musicProvider.addMusic(item.id, {name:item.name,singer:item.artists[0].name});SetSearch(false);}}></a>
+                  <a className={`${style.itemBtn} ${style.add}`} onClick={() => {
+                    musicProvider.addMusic(item.id, {
+                      name: item.name,
+                      singer: item.artists[0].name
+                    });
+                    setSearch(false);
+                  }}></a>
                   <a className={`${style.itemBtn} ${style.download}`} onClick={() => download(item.id, item.name+'-'+item.artists[0].name)}></a>
                 </div>
                 <p className={style.item}>{item.artists[0].name}</p>

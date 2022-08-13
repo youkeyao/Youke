@@ -31,6 +31,7 @@
 }
 
 .input {
+  padding: 5px;
   width: 80%;
   margin-bottom: 15px;
   outline: none;
@@ -43,7 +44,7 @@
   justify-content: space-around;
 }
 .button {
-  padding: 0 5px;
+  padding: 5px 8px;
   border-radius: 5px;
   cursor: pointer;
   font-size: inherit;

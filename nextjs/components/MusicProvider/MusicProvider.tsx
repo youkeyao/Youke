@@ -3,11 +3,11 @@ import { createContext, useEffect, useRef, useState } from 'react'
 export const MusicContext = createContext(null);
 
 export function MusicProvider({ children }) {
-  let [musicInfos, SetInfos]: [Array<any>, Function] = useState([]);
-  const [musicPos, SetPos]: [number, Function] = useState(-1);
-  const [musicURL, SetURL]: [string, Function] = useState('');
-  const [isPause, SetPause]: [boolean, Function] = useState(true);
-  const [curOrder, SetOrder]: [boolean, Function] = useState(true);
+  let [musicInfos, setInfos] = useState([]);
+  const [musicPos, setPos] = useState(-1);
+  const [musicURL, setURL] = useState('');
+  const [isPause, setPause] = useState(true);
+  const [curOrder, setOrder] = useState(true);
   const audioRef = useRef(null);
 
   const storeMusic = () => {
@@ -33,7 +33,7 @@ export function MusicProvider({ children }) {
         name: info.name,
         singer: info.singer
       })
-      SetInfos([...musicInfos]);
+      setInfos([...musicInfos]);
       storeMusic();
     }
     setMusic(id);
@@ -42,15 +42,15 @@ export function MusicProvider({ children }) {
   const removeMusic = (key: number) => {
     if (key >= musicInfos.length) return;
     musicInfos.splice(key, 1);
-    SetInfos([...musicInfos]);
+    setInfos([...musicInfos]);
     if (key == musicPos) {
-      SetPause(true);
+      setPause(true);
       audioRef.current.currentTime = 0;
-      SetURL('');
+      setURL('');
       nextMusic();
     }
     else if (key < musicPos) {
-      SetPos(musicPos - 1);
+      setPos(musicPos - 1);
     }
     storeMusic();
   }
@@ -68,10 +68,10 @@ export function MusicProvider({ children }) {
       return res.json();
     }).then((data) => {
       if (data.data[0].url) {
-        SetPos(getPos(id));
-        SetURL(data.data[0].url);
+        setPos(getPos(id));
+        setURL(data.data[0].url);
         audioRef.current.play();
-        SetPause(audioRef.current.paused);
+        setPause(audioRef.current.paused);
       }
       else {
         removeMusic(getPos(id));
@@ -81,7 +81,7 @@ export function MusicProvider({ children }) {
 
   const prevMusic = () => {
     if (musicInfos.length == 0) {
-      SetPos(-1);
+      setPos(-1);
       return;
     }
     if (curOrder) {
@@ -94,7 +94,7 @@ export function MusicProvider({ children }) {
 
   const nextMusic = () => {
     if (musicInfos.length == 0) {
-      SetPos(-1);
+      setPos(-1);
       return;
     }
     if (curOrder) {
@@ -106,12 +106,12 @@ export function MusicProvider({ children }) {
   };
 
   useEffect(() => {
-    audioRef.current.onplay = () => SetPause(false);
-    audioRef.current.onpause = () => SetPause(true);
+    audioRef.current.onplay = () => setPause(false);
+    audioRef.current.onpause = () => setPause(true);
 
     if (window.localStorage.getItem('musicInfos')) {
       musicInfos = JSON.parse(window.localStorage.getItem('musicInfos'))
-      SetInfos(musicInfos);
+      setInfos(musicInfos);
       setMusic(musicInfos[0].id);
     }
     return () => {
@@ -131,7 +131,7 @@ export function MusicProvider({ children }) {
     setMusic: setMusic,
     prevMusic: prevMusic,
     nextMusic: nextMusic,
-    changeOrder: () => SetOrder((order: boolean) => !order)
+    changeOrder: () => setOrder((order: boolean) => !order)
   }
 
   return (

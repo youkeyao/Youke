@@ -7,8 +7,8 @@ export default function MusicPlayerControl(props) {
   const musicProvider = useContext(MusicContext);
 
   const [dragging, setDrag] = useState(0);
-  const [musicProgress, SetMusicProgress]: [number, Function] = useState(musicProvider.audioRef.current?.currentTime);
-  const [musicVoice, SetMusicVoice]: [number, Function] = useState(musicProvider.audioRef.current?musicProvider.audioRef.current.volume:1);
+  const [musicProgress, setMusicProgress] = useState(musicProvider.audioRef.current?.currentTime);
+  const [musicVoice, setMusicVoice] = useState(musicProvider.audioRef.current?musicProvider.audioRef.current.volume:1);
   const progressRef = useRef(null);
   const voiceRef = useRef(null);
 
@@ -83,13 +83,13 @@ export default function MusicPlayerControl(props) {
   useEffect(() => {
     musicProvider.audioRef.current.ontimeupdate = () => {
       if (musicProvider.audioRef.current.duration) {
-        SetMusicProgress(musicProvider.audioRef.current.currentTime/musicProvider.audioRef.current.duration);
+        setMusicProgress(musicProvider.audioRef.current.currentTime/musicProvider.audioRef.current.duration);
       }
       else {
-        SetMusicProgress(0);
+        setMusicProgress(0);
       }
     }
-    musicProvider.audioRef.current.onvolumechange = () => SetMusicVoice(musicProvider.audioRef.current.volume);
+    musicProvider.audioRef.current.onvolumechange = () => setMusicVoice(musicProvider.audioRef.current.volume);
     return () => {
       musicProvider.audioRef.current.ontimeupdate = null;
       musicProvider.audioRef.current.onvolumechange = null;

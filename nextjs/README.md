@@ -12,7 +12,7 @@ This is my website built by Next.js.
 - music
    - use neteasecloud api
 
-## Modules
+## Dependencies
 - react
 - react-dom
 - next
@@ -25,6 +25,7 @@ This is my website built by Next.js.
 - remark-math
 - rehype-katex
 - react-syntax-highlighter
+- react-player
 
 ## Structure
 ```

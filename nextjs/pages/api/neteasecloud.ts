@@ -71,6 +71,7 @@ export default function neteasecloud(req, res) {
       console.log(ex.stack);
       res.statusCode = 403;
       res.end();
+      reject();
     }
   });
 }

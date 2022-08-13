@@ -41,7 +41,6 @@
   align-items: center;
   padding: 2px;
   border-radius: 5px;
-  font-family: sans-serif;
 }
 .file:hover {
   background-color: rgba(175, 194, 255, 0.4);
@@ -117,7 +116,6 @@
 
 .title {
   padding-bottom: 10px;
-  font-family: sans-serif;
   font-weight: bold;
   color: rgba(255, 255, 255, 0.8);
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);

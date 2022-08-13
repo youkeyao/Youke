@@ -48,7 +48,6 @@ export default function getFiles(req: NextApiRequest, res: NextApiResponse) {
   try {
     const ret = readDir(req.body);
     res.json(ret);
-    res.end();
   }
   catch (ex) {
     console.error(ex.stack);

@@ -11,6 +11,7 @@ const navigation = [
   { name: "Blog", href: "/blog" },
   { name: "iCloud", href: "/icloud" },
   { name: "Music", href: "/music" },
+  { name: "Anime", href: "/anime" }
 ];
 
 export default function SideBar(props) {
@@ -22,6 +23,9 @@ export default function SideBar(props) {
   const isArea = (item) => {
     if (item.name == "Blog") {
       return router.route.substring(0, 5) == item.href;
+    }
+    else if (item.name == "Anime") {
+      return router.route.substring(0, 6) == item.href;
     }
     else if (item.name == "iCloud") {
       return router.route === '/login' || router.route.substring(0, 7) == item.href;

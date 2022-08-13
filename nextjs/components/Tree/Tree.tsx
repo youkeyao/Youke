@@ -4,14 +4,14 @@ import { useState } from "react";
 import style from "./Tree.module.css"
 
 export default function Tree(props) {
-  const [isShowDict, SetShowDict] = useState({});
+  const [isShowDict, setShowDict] = useState({});
 
   const clickFold = (k) => {
     if (isShowDict[k]) {
-      SetShowDict({...isShowDict, [k]: false});
+      setShowDict({...isShowDict, [k]: false});
     }
     else {
-      SetShowDict({...isShowDict, [k]: true});
+      setShowDict({...isShowDict, [k]: true});
     }
   };
 
