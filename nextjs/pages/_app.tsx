@@ -13,7 +13,17 @@ function MyApp({ Component, pageProps }) {
         <title>Youke</title>
       </Head>
       <MusicProvider>
-        <SideBar />
+        <SideBar
+          navigation={[
+            { name: "Home", href: "/", re: /\/$/ },
+            { name: "Profile", href: "/profile", re: /\/profile$/ },
+            { name: "Blog", href: "/blog", re: /\/blog(\/.*)?$/ },
+            { name: "iCloud", href: "/icloud", re: /\/(icloud|login)(\/.*)?$/ },
+            { name: "Music", href: "/music", re: /\/music$/ },
+            { name: "Anime", href: "/anime", re: /\/anime(\/.*)?$/ },
+            { name: "Gobang", href: "/gobang", re: /\/gobang$/ },
+          ]}
+        />
         <Component {...pageProps} />
       </MusicProvider>
     </>

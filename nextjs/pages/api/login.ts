@@ -1,4 +1,3 @@
-import nookies from 'nookies'
 import jwt from 'jsonwebtoken'
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -25,11 +24,7 @@ export default function login(req: NextApiRequest, res: NextApiResponse) {
     else if (user.username == process.env.username && user.password == process.env.password) {
       console.log(req.body);
       res.statusCode = 200;
-      nookies.set({res}, 'token', jwt.sign(user.username, process.env.secret), {
-        // maxAge: 0,
-        path: '/',
-        httpOnly: true,
-      });
+      res.setHeader('Set-Cookie', `token=${jwt.sign(user.username, process.env.secret)}; Path=/; HttpOnly;`);
       res.end();
     }
     else {

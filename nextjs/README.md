@@ -12,21 +12,6 @@ This is my website built by Next.js.
 - music
    - use neteasecloud api
 
-## Dependencies
-- react
-- react-dom
-- next
-- typescript
-- formidable
-- nookies
-- jsonwebtoken
-- react-markdown
-- remark-gfm
-- remark-math
-- rehype-katex
-- react-syntax-highlighter
-- react-player
-
 ## Structure
 ```
 |-- components

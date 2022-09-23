@@ -59,10 +59,6 @@
 }
 
 .audioBtn {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   cursor: pointer;

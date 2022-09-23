@@ -66,9 +66,9 @@
   cursor: pointer;
 }
 .cover {
+  position: relative;
   width: 20%;
   max-width: 150px;
-  object-fit: contain;
 }
 .detail {
   margin-left: 20px;
@@ -86,30 +86,24 @@
   justify-content: center;
 }
 
+.title {
+  color: rgba(201, 255, 199, 0.8);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+.back::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f060";
+  margin-right: 10px;
+  cursor: pointer;
+}
 .episodeArea {
+  padding: 5px;
   width: 100%;
-  flex: 1;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-}
-.episodeBut {
-  padding: 5px 0;
-  width: 50px;
-  text-align: center;
-  margin: 10px;
-  background-color: #eee;
-  cursor: pointer;
-  border-radius: 5px;
-}
-.episodeChosen {
-  padding: 5px 0;
-  width: 50px;
-  text-align: center;
-  margin: 10px;
-  background-color: rgba(111, 145, 255, 0.4);
-  cursor: pointer;
-  border-radius: 5px;
+  justify-content: space-around;
 }
 
 @media (max-width: 600px) {

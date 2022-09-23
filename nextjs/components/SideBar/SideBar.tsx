@@ -5,16 +5,7 @@ import Link from 'next/link';
 import style from "./SideBar.module.css";
 import { MusicContext } from "../MusicProvider/MusicProvider";
 
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Profile", href: "/profile" },
-  { name: "Blog", href: "/blog" },
-  { name: "iCloud", href: "/icloud" },
-  { name: "Music", href: "/music" },
-  { name: "Anime", href: "/anime" }
-];
-
-export default function SideBar(props) {
+export default function SideBar({ navigation }) {
   const musicProvider = useContext(MusicContext);
 
   const [isFold, setFold] = useState(true);
@@ -60,7 +51,7 @@ export default function SideBar(props) {
         </div>
         {navigation.map((item) => (
           <Link href={item.href} key={item.name}>
-            <a className={`${style.link} ${isArea(item) ? style.linkSelect : ''}`}>{item.name}</a>
+            <a className={`${style.link} ${item.re.test(router.route) ? style.linkSelect : ''}`}>{item.name}</a>
           </Link>
          ))}
 			</div>

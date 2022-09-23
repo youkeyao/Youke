@@ -35,14 +35,14 @@
 }
 .search {
   position: absolute;
-  right: 0;
+  right: 3px;
 }
 .search::before {
   content: "\f002";
 }
 .back {
   position: absolute;
-  left: 0;
+  left: 3px;
 }
 .back::before {
   content: "\f060";

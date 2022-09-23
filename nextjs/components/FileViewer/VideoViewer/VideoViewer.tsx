@@ -7,8 +7,8 @@ export default function VideoViewer(props) {
       className={style.video}
       controls
       url={"/api/auth/downloadFile?path="+props.src}
-      width={"100%"}
-      height={"100%"}
+      width={"80vw"}
+      height={"60vw"}
     >
       Video playback is not supported by your browser.
     </ReactPlayer>

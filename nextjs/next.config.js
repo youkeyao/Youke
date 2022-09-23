@@ -6,4 +6,10 @@ module.exports = {
     username: 'username',
     password: 'password'
   },
+  images: {
+    domains: [
+      'sakura.xonlines.com',
+      'wxt.sinaimg.cn',
+    ],
+  },
 }

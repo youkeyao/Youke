@@ -1,17 +1,30 @@
+import { GetServerSideProps } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+
+import { searchAnim } from './api/anime';
 import style from '../styles/Anime.module.css'
 
-export default function Anime(props) {
-  const [results, setResults] = useState([]);
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const results = await searchAnim(context.query.q);
+  return {
+    props: {
+      q: context.query.q || '',
+      results
+    }
+  };
+}
+
+export default function Anime({ q, results }) {
+  const [loading, setLoading] = useState(false);
   const input = useRef(null);
+  const router = useRouter();
 
   const search = (name: string) => {
-    fetch("/api/anime?q=" + name).then((res) => {
-      return res.json();
-    }).then((data) => {
-      setResults(data);
-    });
+    setLoading(true);
+    router.push("/anime?q=" + name);
   }
 
   const enterInput = (e) => {
@@ -20,6 +33,11 @@ export default function Anime(props) {
     }
   }
 
+  useEffect(() => {
+    input.current.value = q;
+    setLoading(false);
+  }, [q]);
+
   return (
     <div className={style.main}>
       <div className={style.searchBox}>
@@ -27,11 +45,13 @@ export default function Anime(props) {
         <a className={style.searchIcon} onClick={() => search(input.current.value)}></a>
       </div>
       <div className={style.resultArea}>
-        {results.length > 0 ?
+        {!loading && results.length > 0 ?
           results.map((item) => (
-            <Link href={"/anime/" + item.id + "/0"} key={item.id}>
+            <Link href={"/anime/" + item.id + "/0/0"} key={item.id}>
               <a className={style.row}>
-                <img className={style.cover} src={item.cover} />
+                <div className={style.cover} >
+                  <Image src={item.cover} layout='fill' objectFit='cover' alt='404' />
+                </div>
                 <div className={style.detail}>
                   <h3>{item.title}</h3>
                   <p>导演：{item.director}</p>
@@ -42,7 +62,7 @@ export default function Anime(props) {
               </a>
             </Link>
           )) :
-          <div className={style.empty}>无内容</div>
+          <div className={style.empty}>{loading ? "搜索中..." : "无内容"}</div>
         }
       </div>
     </div>

@@ -55,7 +55,7 @@ export function MusicProvider({ children }) {
     storeMusic();
   }
 
-  const setMusic = (id: number) => {
+  const setMusic = (id: number, autoPlay: boolean=true) => {
     const body = {
       api: '/weapi/song/enhance/player/url',
       data: {
@@ -70,7 +70,9 @@ export function MusicProvider({ children }) {
       if (data.data[0].url) {
         setPos(getPos(id));
         setURL(data.data[0].url);
-        audioRef.current.play();
+        if (autoPlay) {
+          audioRef.current.play();
+        }
         setPause(audioRef.current.paused);
       }
       else {
@@ -106,18 +108,11 @@ export function MusicProvider({ children }) {
   };
 
   useEffect(() => {
-    audioRef.current.onplay = () => setPause(false);
-    audioRef.current.onpause = () => setPause(true);
-
     if (window.localStorage.getItem('musicInfos')) {
       musicInfos = JSON.parse(window.localStorage.getItem('musicInfos'))
       setInfos(musicInfos);
-      setMusic(musicInfos[0].id);
+      setMusic(musicInfos[0].id, false);
     }
-    return () => {
-      audioRef.current.onplay = null;
-      audioRef.current.onpause = null;
-    };
   }, []);
 
   const value = {
@@ -136,7 +131,13 @@ export function MusicProvider({ children }) {
 
   return (
     <MusicContext.Provider value={value}>
-      <audio src={musicURL} ref={audioRef} onEnded={nextMusic}></audio>
+      <audio
+        src={musicURL}
+        ref={audioRef}
+        onPlay={() => setPause(false)}
+        onPause={() => setPause(true)}
+        onEnded={nextMusic}
+      />
       { children }
     </MusicContext.Provider>
   )
