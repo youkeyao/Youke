@@ -109,9 +109,9 @@ export function MusicProvider({ children }) {
 
   useEffect(() => {
     if (window.localStorage.getItem('musicInfos')) {
-      musicInfos = JSON.parse(window.localStorage.getItem('musicInfos'))
-      setInfos(musicInfos);
-      setMusic(musicInfos[0].id, false);
+      const infos = JSON.parse(window.localStorage.getItem('musicInfos'))
+      setInfos(infos);
+      setMusic(infos[0].id, false);
     }
   }, []);
 

@@ -7,8 +7,8 @@ class ReplayBuffer {
   states = [];
   mctsProbs = [];
   rewards = [];
-  maxSize = 5000;
-  batchSize = 256;
+  maxSize = 10000;
+  batchSize = 512;
 
   push(state, mctsProb, reward) {
     if (this.states.length >= this.maxSize) {
@@ -36,33 +36,46 @@ class ReplayBuffer {
   }
 }
 
-async function main() {
-  const last = 70;
+const format = (data) => (data / 1024 / 1024).toFixed(2) + "MB";
+function printMemory() {
+  const memory = process.memoryUsage();
+  console.log(
+    JSON.stringify({
+      rss: format(memory.rss),
+      heapTotal: format(memory.heapTotal),
+      heapUsed: format(memory.heapUsed),
+      external: format(memory.external)
+    })
+  );
+}
 
+async function main() {
   const replayBuffer = new ReplayBuffer();
-  const net = new Net();
-  await net.load(`file://./AI/model-${last}/model.json`);
-  const player = new MCTSPlayer((o) => net.predict(o), 225, 5, 400, true);
-  let episode = last;
+  const net = new Net(0.001, 8, 8);
+  await net.load(`file://./AI/best-model/model.json`);
+  const player = new MCTSPlayer((o) => net.predict(o), 64, 5, 400, true);
+  let episode = 0;
   
   while (true) {
-    const game = new GoBang();
+    const game = new GoBang(8, 8);
     const buf = [];
     while (!game.isEnd) {
-      const [move, mctsProbs] = player.getAction(game, 0.0001, true);
-      buf.push([game.getObs(), mctsProbs]);
+      const [move, mctsProbs] = player.getAction(game, 1, true);
+      buf.push([game.getObs(), mctsProbs, game.turn]);
       game.step(move);
     }
     for (let b of buf) {
-      replayBuffer.push(b[0], b[1], game.score);
+      replayBuffer.push(b[0], b[1], game.getScore(b[2]));
     }
+    
     if (replayBuffer.states.length > replayBuffer.batchSize) {
       net.train(...replayBuffer.sample());
       episode ++;
-      if (episode % 100 === 0) {
-        await net.save(`file://./AI/model-${episode}`);
+      if (episode % 10 === 0) {
+        await net.save(`file://./AI/best-model`);
       }
     }
+    printMemory();
   }
 }
 

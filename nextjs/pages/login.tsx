@@ -19,7 +19,7 @@ export default function Login(props) {
         setModalVisible(true);
         return;
       }
-      router.push("/icloud");
+      router.replace("/icloud");
     });
   }
 

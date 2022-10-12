@@ -78,7 +78,7 @@ export default function MusicPlayerControl(props) {
         musicProvider.audioRef.current.volume = toMove;
       }
     }
-  }, [dragging]);
+  }, [dragging, musicProvider.audioRef, musicProvider.musicPos]);
 
   useEffect(() => {
     musicProvider.audioRef.current.ontimeupdate = () => {
@@ -94,7 +94,7 @@ export default function MusicPlayerControl(props) {
       musicProvider.audioRef.current.ontimeupdate = null;
       musicProvider.audioRef.current.onvolumechange = null;
     }
-  }, []);
+  }, [musicProvider.audioRef]);
 
   return (
     <div className={style.container}>

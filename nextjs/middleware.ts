@@ -5,11 +5,20 @@ export async function middleware(req: NextRequest) {
     const res = await fetch(req.nextUrl.origin+"/api/login", {
       body: JSON.stringify({token: req.cookies.get('token')
     }), method: 'POST'});
-    if (res.status != 200) {
+    if (res.status !== 200) {
       console.log('block ' + req.nextUrl);
       req.nextUrl.pathname = '/login';
       return NextResponse.redirect(req.nextUrl);
     }
     console.log('auth ' + req.nextUrl);
+  }
+  else if (req.nextUrl.pathname === '/login') {
+    const res = await fetch(req.nextUrl.origin+"/api/login", {
+      body: JSON.stringify({token: req.cookies.get('token')
+    }), method: 'POST'});
+    if (res.status === 200) {
+      req.nextUrl.pathname = '/icloud';
+      return NextResponse.redirect(req.nextUrl);
+    }
   }
 }

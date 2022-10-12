@@ -84,16 +84,17 @@ class MCTS{
     }
     let [actProb, leafValue] = this.policy(game.getObs());
     leafValue = leafValue.arraySync()[0];
+
     if (!game.isEnd) {
       const probs = actProb.arraySync()[0];
-      for (let action in probs) {
-        if (game.isValid(action)) {
-          node.expand(action, probs[action]);
+      for (let a in probs) {
+        if (game.isValid(a)) {
+          node.expand(a, probs[a]);
         }
       }
     }
     else {
-      leafValue = game.score;
+      leafValue = game.getScore(game.turn);
     }
     node.update(-leafValue);
   }
@@ -108,7 +109,7 @@ class MCTS{
         return this.root.children[k].nVisits;
       }
       return 0;
-    })
+    });
     const probs = tf.softmax(tf.log(tf.tensor1d(visits).add(1e-10)).mul(1.0/temp)).arraySync();
 
     return probs;
@@ -133,23 +134,28 @@ class MCTSPlayer {
 
   getAction(game, temp=0.001, returnProb=false) {
     if (!game.isEnd) {
-      const probs = this.mcts.getMoveProbs(game, temp);
-      let move = 0;
-      if (this.isSelfPlay) {
-        for (let i in probs) {
-          probs[i] = 0.75*probs[i] + 0.25*Math.random()*0.1;
+      return tf.tidy(() => {
+        const probs = this.mcts.getMoveProbs(game, temp);
+        let move = 0;
+        if (this.isSelfPlay) {
+          move = randomChoose(probs);
+          this.mcts.updateWithMove(move);
         }
-        move = randomChoose(probs);
-        this.mcts.updateWithMove(move);
-      }
-      else {
-        move = randomChoose(probs);
-        this.mcts.updateWithMove(-1);
-      }
-      if (returnProb) {
-        return [move, probs];
-      }
-      return [move];
+        else {
+          let max = -1;
+          for (let i in probs) {
+            if (probs[i] > max) {
+              max = probs[i];
+              move = i;
+            }
+          }
+          this.mcts.updateWithMove(-1);
+        }
+        if (returnProb) {
+          return [move, probs];
+        }
+        return [move];
+      });
     }
   }
 }

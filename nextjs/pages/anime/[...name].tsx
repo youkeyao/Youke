@@ -49,7 +49,9 @@ export default function Anime({title, src, sources, episodes, id, source, episod
           router.replace("/anime/" + id + "/" + source + "/" + k);
         }} />
       </div>
-      <ReactPlayer url={src} width={"80vw"} height={"60vw"} controls />
+      <div className={style.videoContainer}>
+        <ReactPlayer url={src} width={"100%"} height={"80%"} style={{ maxHeight: '55vw' }} controls />
+      </div>
     </div>
   )
 }

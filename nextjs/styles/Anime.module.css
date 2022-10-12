@@ -73,6 +73,7 @@
 .detail {
   margin-left: 20px;
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -104,6 +105,12 @@
   align-items: center;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+.videoContainer {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  overflow: hidden;
 }
 
 @media (max-width: 600px) {

@@ -2,7 +2,7 @@ import React, { CSSProperties, MouseEvent, useEffect, useRef, useState } from 'r
 import styles from '../styles/Gobang.module.css'
 
 const CANVAS_SIZE = 800;
-const GRID_NUM = 15;
+const GRID_NUM = 8;
 const GRID_SIZE = CANVAS_SIZE / (GRID_NUM + 1);
 
 const ChessPiece = ({ style, size, x, y, turn }: {
@@ -78,7 +78,8 @@ export default function Gobang() {
     }).then(res => {
       return res.json();
     }).then(data => {
-      if (data.score) {
+      if (data.end) {
+        if (data.end === 1) nextStep(data.x, data.y);
         setIsStart(false);
       }
       else {
