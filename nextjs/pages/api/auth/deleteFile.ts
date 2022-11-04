@@ -16,7 +16,7 @@ const removeFileOrDir = (p: string) => {
   }
 }
 
-// 上传文件
+// 删除文件
 export default function deleteFiles(req: NextApiRequest, res: NextApiResponse) {
   try {
     removeFileOrDir(process.env.root + req.body);

@@ -16,7 +16,6 @@ export default async function uploadFiles(req: NextApiRequest, res: NextApiRespo
     form.options.multiples = true;
     form.options.maxFileSize = 1024 * 1024 * 1024;
     form.uploadDir = 'tmp'; //临时目录
-    // 进度条
     await new Promise((resolve, reject) => {
       form.parse(req, (err, fields, files) => {
         if (err) {

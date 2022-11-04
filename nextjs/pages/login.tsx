@@ -12,7 +12,11 @@ export default function Login(props) {
 
   const login = (e) => {
     e.preventDefault();
-    fetch("/api/login", {body: JSON.stringify({username: userRef.current.value, password: pswRef.current.value}), method: 'POST'}).then((res) => {
+    fetch("/api/login", {
+      body: JSON.stringify({username: userRef.current.value, password: pswRef.current.value}),
+      method: 'POST'
+    }).then((res) => {
+      console.log(res);
       if (res.status != 200) {
         userRef.current.value = '';
         pswRef.current.value = '';

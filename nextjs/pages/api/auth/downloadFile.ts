@@ -2,6 +2,12 @@ import fs from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path'
 
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+}
+
 // 下载文件
 export default function downloadFile(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -32,7 +38,8 @@ export default function downloadFile(req: NextApiRequest, res: NextApiResponse) 
     fileStream.on('end', () => {
       res.end();
     });
-    fileStream.on('error', () => {
+    fileStream.on('error', (err) => {
+      console.log(err);
       res.end();
     });
   }
