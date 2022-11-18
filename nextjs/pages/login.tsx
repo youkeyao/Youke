@@ -16,13 +16,13 @@ export default function Login(props) {
       body: JSON.stringify({username: userRef.current.value, password: pswRef.current.value}),
       method: 'POST'
     }).then((res) => {
-      console.log(res);
       if (res.status != 200) {
         userRef.current.value = '';
         pswRef.current.value = '';
         setModalVisible(true);
         return;
       }
+      console.log(res.status);
       router.replace("/icloud");
     });
   }

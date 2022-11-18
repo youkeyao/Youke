@@ -30,6 +30,12 @@
   text-align: center;
   border: 1px solid black;
 }
+.container h2 {
+  margin: 0.83em 0;
+}
+.container ul {
+  margin-left: 2em;
+}
 
 .title {
   line-height: 1.2em;

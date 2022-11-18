@@ -1,7 +1,6 @@
 export default {
   "pre[class*=\"language-\"]": {
     "color": "#d4d4d4",
-    "fontSize": "13px",
     "textShadow": "none",
     "fontFamily": "Menlo, Monaco, Consolas, \"Andale Mono\", \"Ubuntu Mono\", \"Courier New\", monospace",
     "direction": "ltr",
@@ -24,7 +23,6 @@ export default {
   },
   "code[class*=\"language-\"]": {
     "color": "#d4d4d4",
-    "fontSize": "13px",
     "textShadow": "none",
     "fontFamily": "Menlo, Monaco, Consolas, \"Andale Mono\", \"Ubuntu Mono\", \"Courier New\", monospace",
     "direction": "ltr",
