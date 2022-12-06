@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export const getAnim = (id: string, source: number, episode: string) => {
   return new Promise<any>((resolve, reject)=> {
-    fetch("http://www.dmh8.com/player/" + id + "-" + source + '-' + episode + ".html").then((response) => {
+    fetch("http://www.dmh8.me/player/" + id + "-" + source + '-' + episode + ".html").then((response) => {
       return response.text();
     }).then((data) => {
       const sourceData = data.match(/<ul class="nav nav-tabs active">([\s\S]*?)<\/ul>/)[1];
@@ -22,7 +22,7 @@ export const getAnim = (id: string, source: number, episode: string) => {
 
 export const searchAnim = (q: string | string[]) => {
   return new Promise<any>((resolve, reject) => {
-    fetch("http://www.dmh8.com/search.asp?searchword=" + q).then((response) => {
+    fetch("http://www.dmh8.me/search.asp?searchword=" + q).then((response) => {
       return response.text();
     }).then((data) => {
       const searchData = data.match(/<li class="clearfix">([\s\S]*?)<\/li>/g);

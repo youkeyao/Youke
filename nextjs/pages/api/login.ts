@@ -28,10 +28,10 @@ export default function login(req: NextApiRequest, res: NextApiResponse) {
     else {
       console.log(new Date(Date.now()).toLocaleString());
       if (user.username == process.env.username && user.password == process.env.password) {
-      console.log(req.body);
-      res.statusCode = 200;
-      res.setHeader('Set-Cookie', `token=${jwt.sign(user.username, process.env.secret)}; Path=/; HttpOnly;`);
-      res.end();
+        console.log(req.body);
+        res.statusCode = 200;
+        res.setHeader('Set-Cookie', `token=${jwt.sign(user.username, process.env.secret)}; Path=/; HttpOnly;`);
+        res.end();
       }
       else {
         throw new Error('Account Error');
