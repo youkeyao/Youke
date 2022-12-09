@@ -5,7 +5,6 @@ import style from '../styles/Login.module.css'
 import Modal from "../components/Modal/Modal"
 
 export default function Login(props) {
-  const [modalTitle, setModalTitle] = useState("Login Fail");
   const [isModalVisible, setModalVisible] = useState(false);
   const userRef = useRef(null);
   const pswRef = useRef(null);
@@ -18,8 +17,7 @@ export default function Login(props) {
       method: 'POST'
     }).then((res) => {
       if (res.ok) {
-        setModalTitle("Login Success");
-        setModalVisible(true);
+        router.replace("/icloud")
       }
       else {
         userRef.current.value = '';
@@ -41,13 +39,8 @@ export default function Login(props) {
       </div>
       <Modal
         isVisible={isModalVisible}
-        title={modalTitle}
-        onCancel={() => {
-          setModalVisible(false);
-          if (modalTitle == "Login Success") {
-            router.replace("/icloud");
-          }
-        }}
+        title="Login Fail"
+        onCancel={() => setModalVisible(false)}
       />
     </div>
   )

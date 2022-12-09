@@ -50,8 +50,8 @@ export default function SideBar({ navigation }) {
           <a className={style.next} onClick={musicProvider.nextMusic}></a>
         </div>
         {navigation.map((item) => (
-          <Link href={item.href} key={item.name}>
-            <a className={`${style.link} ${item.re.test(router.route) ? style.linkSelect : ''}`}>{item.name}</a>
+          <Link className={`${style.link} ${item.re.test(router.route) ? style.linkSelect : ''}`} href={item.href} key={item.name}>
+            {item.name}
           </Link>
          ))}
 			</div>

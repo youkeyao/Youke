@@ -19,7 +19,7 @@ export default function Tree(props) {
     return data.map(v => {
       if (!v.children) {
         const url = parent + '/' + encodeURIComponent(v.name);
-        return <Link href={url} key={v.name}><a className={style.item}>{v.title}</a></Link>;
+        return <Link className={style.item} href={url} key={v.name}>{v.title}</Link>;
       }
       else {
         return (

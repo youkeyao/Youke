@@ -164,9 +164,7 @@ export default function ICloud(props) {
     // Preview
     <div className={style.preview}>
       <p className={style.title}>
-        <Link href={'/icloud'+props.path.split('/').slice(0, -1).join('/')}>
-          <a className={`${style.itemBtn} ${style.back}`}></a>
-        </Link>
+        <Link className={`${style.itemBtn} ${style.back}`} href={'/icloud'+props.path.split('/').slice(0, -1).join('/')} />
         {props.filename}
       </p>
       <FileViewer fileType={props.ext} src={props.path} />
@@ -176,9 +174,7 @@ export default function ICloud(props) {
       <div className={style.topArea}>
         <p className={style.title}>
           {props.path}
-          <Link href={'/icloud'+props.path.split('/').slice(0, -2).join('/')}>
-            <a className={`${style.itemBtn} ${style.up}`}></a>
-          </Link>
+          <Link className={`${style.itemBtn} ${style.up}`} href={'/icloud'+props.path.split('/').slice(0, -2).join('/')} />
         </p>
         <ProgressBar per={percentage} />
         <div>
@@ -197,8 +193,8 @@ export default function ICloud(props) {
         {files.map((item) => (
           <div className={`${style.row} ${style.file}`} key={item.key}>
             <div className={`${style.item} ${style.itemName}`}>
-              <Link href={'/icloud' + props.path + item.name}>
-                <a target={"_self"}>{item.name}</a>
+              <Link href={'/icloud' + props.path + item.name} target={"_self"}>
+                {item.name}
               </Link>
             </div>
             <div className={style.btnArea}>

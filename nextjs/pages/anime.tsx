@@ -47,19 +47,17 @@ export default function Anime({ q, results }) {
       <div className={style.resultArea}>
         {!loading && results.length > 0 ?
           results.map((item) => (
-            <Link href={"/anime/" + item.id + "/0/0"} key={item.id}>
-              <a className={style.row}>
-                <div className={style.cover} >
-                  <Image src={item.cover} layout='fill' objectFit='cover' alt='404' />
-                </div>
-                <div className={style.detail}>
-                  <h3>{item.title}</h3>
-                  <p>导演：{item.director}</p>
-                  <p>主演：{item.star}</p>
-                  <p>年份：{item.year}</p>
-                  <p>简介：{item.intro}</p>
-                </div>
-              </a>
+            <Link className={style.row} href={"/anime/" + item.id + "/0/0"} key={item.id}>
+              <div className={style.cover} >
+                <Image src={item.cover} layout='fill' objectFit='cover' alt='404' />
+              </div>
+              <div className={style.detail}>
+                <h3>{item.title}</h3>
+                <p>导演：{item.director}</p>
+                <p>主演：{item.star}</p>
+                <p>年份：{item.year}</p>
+                <p>简介：{item.intro}</p>
+              </div>
             </Link>
           )) :
           <div className={style.empty}>{loading ? "搜索中..." : "无内容"}</div>
