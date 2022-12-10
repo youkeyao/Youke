@@ -7,8 +7,8 @@
   background-color: rgba(0, 0, 0, 0.3);
 }
 .container {
-  width: 400px;
-  max-width: 60%;
+  width: 350px;
+  max-width: 55%;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@
 
 .title {
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-size: inherit;
 }
 

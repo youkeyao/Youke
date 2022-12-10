@@ -50,7 +50,7 @@ export default function ICloud(props) {
   const [files, setFiles] = useState(props.files);
   const [percentage, setPer] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [isShowInput, setInput] = useState(false);
+  const [modalType, setModalType] = useState<'input' | 'info'>('input');
   const [modalTitle, setTitle] = useState('');
   const inputRef = useRef(null);
 
@@ -63,7 +63,7 @@ export default function ICloud(props) {
 
   // 失败弹窗
   const failModal = (msg) => {
-    setInput(false);
+    setModalType('info');
     setTitle(msg);
     setModalVisible(true);
   };
@@ -180,7 +180,11 @@ export default function ICloud(props) {
         <div>
           <input className={style.none} type='file' ref={inputRef} onChange={uploadFile} multiple></input>
           <a className={`${style.itemBtn} ${style.upload}`} onClick={() => inputRef.current.click()}></a>
-          <a className={`${style.itemBtn} ${style.newFolder}`} onClick={() => {setInput(true);setTitle('New Folder');setModalVisible(true);}}></a>
+          <a className={`${style.itemBtn} ${style.newFolder}`} onClick={() => {
+            setModalType('input');
+            setTitle('New Folder');
+            setModalVisible(true);
+          }}></a>
         </div>
       </div>
       <div className={style.row}>
@@ -209,8 +213,8 @@ export default function ICloud(props) {
       <Modal
         isVisible={isModalVisible}
         title={modalTitle}
-        isShowInput={isShowInput}
-        onCancel={() => {
+        type={modalType}
+        onClose={() => {
           setModalVisible(false);
         }}
         onConfirm={(v) => {

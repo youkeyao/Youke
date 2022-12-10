@@ -4,18 +4,18 @@ import style from "./Modal.module.css"
 interface ModalProps {
   isVisible: boolean;
   title: string;
-  isShowInput?: boolean;
+  type: 'input' | 'info' | 'None'
   onConfirm?: (v: string) => void;
-  onCancel?: () => void;
+  onClose?: () => void;
 }
 
 export default function Modal(props: ModalProps) {
-  const { isVisible, title, isShowInput, onCancel, onConfirm } = props;
+  const { isVisible, title, type, onClose, onConfirm } = props;
   const inputRef = useRef(null);
 
   const clickCancel = () => {
     inputRef.current.value = "";
-    onCancel && onCancel();
+    onClose && onClose();
   }
 
   const clickConfirm = () => {
@@ -27,15 +27,17 @@ export default function Modal(props: ModalProps) {
     <div className={isVisible ? style.background : style.none}>
       <div className={style.container}>
         <p className={style.title}>{title}</p>
-        <input className={isShowInput ? style.input : style.none} ref={inputRef}></input>
-        {isShowInput ?
+        <input className={type == 'input' ? style.input : style.none} ref={inputRef}></input>
+        {type == 'input' ?
           <div className={style.row}>
             <a className={style.button} onClick={clickCancel}>cancel</a>
             <a className={style.button} onClick={clickConfirm}>confirm</a>
           </div> :
+        type == 'info' ?
           <div className={style.row}>
             <a className={style.button} onClick={clickCancel}>ok</a>
-          </div>
+          </div> : 
+        null
         }
       </div>
     </div>

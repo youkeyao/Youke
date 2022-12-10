@@ -26,6 +26,19 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
       }
     }
+    else if (req.nextUrl.searchParams.has('username') && req.nextUrl.searchParams.has('password')) {
+      const res = await fetch(req.nextUrl.origin+"/api/login", {
+        body: JSON.stringify({username: req.nextUrl.searchParams.get('username'), password: req.nextUrl.searchParams.get('password')}),
+        method: 'POST'
+      });
+      if (res.ok) {
+        const response = NextResponse.next();
+        response.headers.set('set-cookie', res.headers.get('set-cookie'));
+        return response;
+      }
+      req.nextUrl.searchParams.delete('username');
+      req.nextUrl.searchParams.delete('password');
+    }
     req.nextUrl.pathname = '/login';
     return NextResponse.redirect(req.nextUrl);
   }
