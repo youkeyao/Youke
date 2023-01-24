@@ -8,11 +8,11 @@ import { searchAnim } from './api/anime';
 import style from '../styles/Anime.module.css'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const results = await searchAnim(context.query.q);
+  const results = await searchAnim(context.query.q).catch(err => console.log(err));
   return {
     props: {
       q: context.query.q || '',
-      results
+      results: results ? results : []
     }
   };
 }

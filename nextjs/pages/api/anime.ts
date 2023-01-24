@@ -23,7 +23,7 @@ export const getAnim = (id: string, source: number, episode: string) => {
 export const searchAnim = (q: string | string[]) => {
   return new Promise<any>((resolve, reject) => {
     fetch("http://www.dmh8.me/search.asp?searchword=" + q).then((response) => {
-      return response.text();
+      return response?.text();
     }).then((data) => {
       const searchData = data.match(/<li class="clearfix">([\s\S]*?)<\/li>/g);
       resolve((searchData || []).map((item) => {

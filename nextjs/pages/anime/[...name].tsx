@@ -7,13 +7,14 @@ import { useRouter } from 'next/router';
 import DropDown from '../../components/DropDown/DropDown';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  console.log(context.query.name);
   const id = context.query.name[0];
-  const source = JSON.parse(context.query.name[1]);
+  const source = parseInt(context.query.name[1]);
   const episode = context.query.name[2];
 
-  const data = await getAnim(id, source, episode);
+  const data = await getAnim(id, source, episode).catch(err => console.log(err));
   
-  if (id && episode && data.title && data.src && data.sources && data.episodes) {
+  if (id && episode && data && data.title && data.src && data.sources && data.episodes) {
     return {
       props: {
         ...data,

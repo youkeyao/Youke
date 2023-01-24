@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import style from '../styles/Login.module.css'
 
@@ -7,25 +7,32 @@ import Modal from "../components/Modal/Modal"
 export default function Login(props) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState('Loading...');
-  const [modalType, setModalType] = useState<'None' | 'info'>('None');
+  const [modalType, setModalType] = useState<'none' | 'info'>('none');
   const userRef = useRef(null);
   const pswRef = useRef(null);
   const router = useRouter();
 
   const login = (e) => {
     e.preventDefault();
-    router.push("/icloud?username=" + userRef.current.value + "&password=" + pswRef.current.value, "/icloud");
-    setModalType('None');
+    setModalType('none');
     setModalTitle('Loading...');
     setModalVisible(true);
+    fetch("/api/login", {
+      body: JSON.stringify({ username: userRef.current.value, password: pswRef.current.value }),
+      method: 'POST'
+    }).then((res) => {
+      if (res.ok) {
+        router.replace("/icloud");
+      }
+      else {
+        userRef.current.value = '';
+        pswRef.current.value = '';
+        setModalType('info');
+        setModalTitle('Login Fail');
+        setModalVisible(true);
+      }
+    });
   }
-
-  useEffect(() => {
-    userRef.current.value = "";
-    pswRef.current.value = "";
-    setModalType('info');
-    setModalTitle('Login Fail');
-  }, [router])
 
   return (
     <div className={style.main}>
@@ -41,7 +48,7 @@ export default function Login(props) {
         isVisible={isModalVisible}
         title={modalTitle}
         type={modalType}
-        onClose={() => setModalVisible(false)}
+        onCancel={() => setModalVisible(false)}
       />
     </div>
   )

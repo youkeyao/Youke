@@ -214,7 +214,7 @@ export default function ICloud(props) {
         isVisible={isModalVisible}
         title={modalTitle}
         type={modalType}
-        onClose={() => {
+        onCancel={() => {
           setModalVisible(false);
         }}
         onConfirm={(v) => {
