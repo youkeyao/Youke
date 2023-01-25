@@ -8,9 +8,20 @@ import ProgressBar from "../../components/ProgressBar/ProgressBar"
 import Modal from "../../components/Modal/Modal"
 import FileViewer from '../../components/FileViewer/FileViewer';
 
+import { isValid } from '../api/login';
 import { readDir, handlePath } from "../api/auth/getFiles"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const verified = await isValid(context.req.cookies['token']);
+  if (!verified) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
   const path = require('path');
   const p = context.query.path ? '/' + (context.query.path as string[]).join('/') : '/';
   // 处理路径

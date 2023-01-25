@@ -1,8 +1,26 @@
+import { GetServerSideProps } from 'next';
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import style from '../styles/Login.module.css'
 
+import { isValid } from './api/login';
+
 import Modal from "../components/Modal/Modal"
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const verified = await isValid(context.req.cookies['token']);
+  if (verified) {
+    return {
+      redirect: {
+        destination: '/icloud',
+        permanent: false,
+      },
+    }
+  }
+  return {
+    props: {}
+  }
+}
 
 export default function Login(props) {
   const [isModalVisible, setModalVisible] = useState(false);

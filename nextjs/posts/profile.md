@@ -6,9 +6,9 @@
 A student major in Electrical Engineering, minor in computer science, just learning something I'm interested in. Now Learning developing games including model and program.
 
 ## Academic Performance
-- GPA : 3.85
-- Average Score : 89.72
-- Rank : 3/114
+- GPA : 3.83
+- Average Score : 89.45
+- Rank : 4/114
 - A+ Courses
     - Introduction to Engineering
     - College Physics I
@@ -32,6 +32,7 @@ A student major in Electrical Engineering, minor in computer science, just learn
     - Principle of Automatic Control
     - Fundamentals of Power Electronics Technology
     - Electric Machinery
+    - Blockchain Technology and Its Application in Energy Internet
 
 ## Projects
 - An Unlock Device Controlled By Bluetooth and APP With Multi-Function
@@ -69,6 +70,14 @@ A student major in Electrical Engineering, minor in computer science, just learn
 - GPU-based path tracer in OpenGL
 
     BVH + BRDF + importance sampling
+
+- Physics simulation using Taichi
+
+    FEM + SPH + Eulerian Fluid + MPM
+
+- Simple 2D game engine
+
+    Based on hazel engine.
 
 ## Competitions
 - 2020 Contemporary Undergraduate Mathematical Contest in Modeling

@@ -12,20 +12,4 @@ export async function middleware(req: NextRequest) {
     req.nextUrl.pathname = '/';
     return NextResponse.redirect(req.nextUrl);
   }
-  else if (req.nextUrl.pathname.startsWith('/icloud')) {
-    const verified = await isValid(req.cookies.get('token')?.value);
-    if (verified) {
-      return NextResponse.next();
-    }
-    req.nextUrl.pathname = '/login';
-    return NextResponse.redirect(req.nextUrl);
-  }
-  else if (req.nextUrl.pathname === '/login') {
-    const verified = await isValid(req.cookies.get('token')?.value);
-    if (verified) {
-      req.nextUrl.pathname = '/icloud';
-      return NextResponse.redirect(req.nextUrl);
-    }
-    return NextResponse.next();
-  }
 }
