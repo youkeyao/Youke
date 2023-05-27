@@ -7,12 +7,12 @@ import { useRouter } from 'next/router';
 import DropDown from '../../components/DropDown/DropDown';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log(context.query.name);
   const id = context.query.name[0];
   const source = parseInt(context.query.name[1]);
   const episode = context.query.name[2];
 
   const data = await getAnim(id, source, episode).catch(err => console.log(err));
+  console.log(data.title);
   
   if (id && episode && data && data.title && data.src && data.sources && data.episodes) {
     return {
@@ -43,11 +43,11 @@ export default function Anime({title, src, sources, episodes, id, source, episod
         {title}
       </h2>
       <div className={style.episodeArea}>
-        <DropDown options={sources} initSelected={"playlist" + (source + 1)} onChange={(k) => {
-          router.replace("/anime/" + id + "/" + k + "/" + episode);
+        <DropDown options={Array.from({length: sources}, (_, i)=>"playlist"+(i+1))} initSelected={"playlist" + source} onChange={(k) => {
+          router.replace("/anime/" + id + "/" + (k+1) + "/" + episode);
         }} />
-        <DropDown options={episodes} initSelected={episodes[episode]} onChange={(k) => {
-          router.replace("/anime/" + id + "/" + source + "/" + k);
+        <DropDown options={Array.from({length: episodes}, (_, i)=>"第"+(i+1)+"集")} initSelected={"第" + episode + "集"} onChange={(k) => {
+          router.replace("/anime/" + id + "/" + source + "/" + (k+1));
         }} />
       </div>
       <div className={style.videoContainer}>

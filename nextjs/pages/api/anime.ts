@@ -2,16 +2,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export const getAnim = (id: string, source: number, episode: string) => {
   return new Promise<any>((resolve, reject)=> {
-    fetch("http://www.dmh8.me/player/" + id + "-" + source + '-' + episode + ".html").then((response) => {
+    fetch("https://www.dmttang.com/vodplay/" + id + "-" + source + '-' + episode + ".html").then((response) => {
       return response.text();
     }).then((data) => {
-      const sourceData = data.match(/<ul class="nav nav-tabs active">([\s\S]*?)<\/ul>/)[1];
-      const episodeData = data.match(new RegExp("<div id=\"playlist" + (source + 1) + "\"([\\s\\S]*?)</div>"))[1];
       resolve({
-        title: data.match(new RegExp("<a class=\"text-fff\" href=\"/view/" + id + ".html\">([\\s\\S]*?)</a>"))[1],
-        src: data.match(/},"url":"([\s\S]*?)"/)[1].replaceAll('\\', ''),
-        sources: sourceData.match(/<li([\s\S]*?)<\/li>/g).map(v => v.match(/<a href="#([\s\S]*?)"/)[1]).sort(),
-        episodes: episodeData.match(/<a([\s\S]*?)<\/a>/g).map(v => v.match(/>([\s\S]*?)<\/a>/)[1]),
+        title: data.match(new RegExp("<a href=\"/voddetail/" + id + ".html\" title=\"([\\s\\S]*?)\">"))[1],
+        src: data.match(/<div class="player-wrapper">([\s\S]*?)<\/div>/)[1].match(/url":"([\s\S]*?)"/)[1].replaceAll("\\", ""),
+        sources: data.match(/<div class="module-tab-content">([\s\S]*?)<div class="shortcuts-mobile-overlay">/)[1].split("module-tab-item").length - 1,
+        episodes: parseInt(data.match(/<div class="module-tab-item tab-item selected"([\s\S]*?)<\/div>/)[1].match(/<small>([\d]*?)<\/small>/)[1]),
       });
     }).catch((err) => {
       console.log(err);
@@ -22,19 +20,19 @@ export const getAnim = (id: string, source: number, episode: string) => {
 
 export const searchAnim = (q: string | string[]) => {
   return new Promise<any>((resolve, reject) => {
-    fetch("http://www.dmh8.me/search.asp?searchword=" + q).then((response) => {
+    fetch("https://www.dmttang.com/vodsearch.html?wd=" + q).then((response) => {
       return response?.text();
     }).then((data) => {
-      const searchData = data.match(/<li class="clearfix">([\s\S]*?)<\/li>/g);
-      resolve((searchData || []).map((item) => {
+      const searchData = data.match(/<div class="module-items">([\s\S]*?)<\/main>/g)[0].split("module-search-item");
+      resolve((searchData.slice(1)).map((item) => {
         return {
-          title: item.match(/title="([\s\S]*?)"/)[1],
-          cover: item.match(/data-original="([\s\S]*?)"/)[1],
-          director: item.match(/<p><span class="text-muted">导演：<\/span>([\s\S]*?)<\/p>/)[1],
-          star: item.match(/<p><span class="text-muted">主演：<\/span>([\s\S]*?)<\/p>/)[1],
-          year: item.match(/<span class="text-muted hidden-xs">年份：<\/span>([\s\S]*?)<\/p>/)[1],
-          id: item.match(/<h4 class="title"><a class="searchkey" href="\/view\/([\s\S]*?).html">/)[1],
-          intro: item.match(/<span class="text-muted">简介：<\/span>([\s\S]*?)<a/)[1]
+          title: item.match(/alt="([\s\S]*?)"/)[1],
+          cover: "https://www.dmttang.com" + item.match(/data-src="([\s\S]*?)"/)[1],
+          director: item.match(/导演：<\/span>([\s\S]*?)<\/div>/)[1].match(/target="_blank">([\s\S]*?)<\/a>/)[1],
+          star: item.match(/主演：<\/span>([\s\S]*?)<\/div>/)[1].match(/target="_blank">([\s\S]*?)<\/a>/)[1],
+          year: item.match(/target="_blank">([\d]*?)<\/a>/)[1],
+          id: item.match(/href="\/voddetail\/([\d]*?).html"/)[1],
+          intro: item.match(/<div class="video-info-item">([\s\S]*?)<\/div>/)[1]
         };
       }));
     }).catch((err) => {

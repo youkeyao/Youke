@@ -47,7 +47,7 @@ export default function Anime({ q, results }) {
       <div className={style.resultArea}>
         {!loading && results.length > 0 ?
           results.map((item) => (
-            <Link className={style.row} href={"/anime/" + item.id + "/0/0"} key={item.id}>
+            <Link className={style.row} href={"/anime/" + item.id + "/1/1"} key={item.id}>
               <div className={style.cover} >
                 <Image src={item.cover} layout='fill' objectFit='cover' alt='404' />
               </div>

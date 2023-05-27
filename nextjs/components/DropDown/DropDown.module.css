@@ -30,6 +30,7 @@
 }
 
 .menu {
+  width: 100%;
   z-index: 1;
   max-height: 200px;
   position: absolute;
@@ -48,6 +49,7 @@
   font-family: "Font Awesome 5 Free";
   line-height: 1.8em;
   cursor: pointer;
+  text-align: center;
 }
 .menuItem:hover {
   background-color: #e6e6e6;

@@ -8,8 +8,7 @@ module.exports = {
   },
   images: {
     domains: [
-      'sakura.xonlines.com',
-      'wxt.sinaimg.cn',
+      'www.dmttang.com',
     ],
   },
 }

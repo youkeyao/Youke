@@ -75,7 +75,7 @@ A student major in Electrical Engineering, minor in computer science, just learn
 
     FEM + SPH + Eulerian Fluid + MPM
 
-- Simple 2D game engine
+- Simple game engine
 
     Based on hazel engine.
 
