@@ -20,7 +20,7 @@ export const getAnim = (id: string, source: number, episode: string) => {
 
 export const searchAnim = (q: string | string[]) => {
   return new Promise<any>((resolve, reject) => {
-    fetch("https://www.dmttang.com/vodsearch.html?wd=" + q).then((response) => {
+    fetch("https://www.dmttang.com/vodsearch/-------------.html?wd=" + q).then((response) => {
       return response?.text();
     }).then((data) => {
       const searchData = data.match(/<div class="module-items">([\s\S]*?)<\/main>/g)[0].split("module-search-item");

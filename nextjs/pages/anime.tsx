@@ -7,7 +7,19 @@ import { useEffect, useRef, useState } from 'react';
 import { searchAnim } from './api/anime';
 import style from '../styles/Anime.module.css'
 
+import { isValid } from './api/login';
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const verified = await isValid(context.req.cookies['token']);
+  if (!verified) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
   const results = await searchAnim(context.query.q).catch(err => console.log(err));
   return {
     props: {

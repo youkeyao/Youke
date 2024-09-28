@@ -85,7 +85,7 @@ A student major in Electrical Engineering, minor in computer science, just learn
 - 2021 National Undergraduate Electronics Design Contest
 
 ## Interests
-- Program (C++, Python, Java)
+- Program (C++, Python, Java, Web)
 - Singlechip (Arduino, Raspberry, Tiva)
 - 3D Modeling (Blender)
 - Rubik's Cube

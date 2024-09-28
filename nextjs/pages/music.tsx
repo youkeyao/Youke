@@ -1,8 +1,24 @@
 import { useContext, useRef, useState } from 'react';
+import type { GetServerSideProps } from 'next';
 import style from '../styles/Music.module.css';
 
 import MusicPlayerControl from "../components/MusicPlayerControl/MusicPlayerControl";
 import { MusicContext } from '../components/MusicProvider/MusicProvider';
+
+import { isValid } from './api/login';
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const verified = await isValid(context.req.cookies['token']);
+  if (!verified) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+  return { props: {} };
+}
 
 export default function Music(props) {
   const musicProvider = useContext(MusicContext);
